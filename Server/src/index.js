@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 
 import { userRouter } from "./routes/users.js";
+import { patientRouter } from "./routes/patients.js";
 
 /* CONFIGURATIONS */
 dotenv.config();
@@ -16,6 +17,8 @@ app.use(cors());
 
 /* ROUTES */
 app.use("/auth", userRouter);
+app.use("/auth", patientRouter);
+
 
 
 /* MONGOOSE SETUP */
