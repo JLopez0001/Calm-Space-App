@@ -20,18 +20,18 @@ const generateRandomCode = async () => {
 router.post('/register', async (req, res) => {
 
   try {
-    const {email,password,role,userName} = req.body;
+    const {email,password,role,username} = req.body;
 
     //Check to see if unique username is taken
-    const existingUser = await User.findOne({userName});
+    const existingUser = await User.findOne({username});
     if (existingUser) {
       return res.status(400).json({ message: "Username already exists" });
     };
 
-    //Check to see if password is longer than 6 characters
-    if(password.length < 6){
-      return res.status(400).json({message: "Password must be at least 6 characters long"});
-    };
+    // //Check to see if password is longer than 6 characters
+    // if(password.length < 6){
+    //   return res.status(400).json({message: "Password must be at least 6 characters long"});
+    // };
 
     // Password Encryption.
     const salt = await bcrypt.genSalt();
@@ -42,12 +42,13 @@ router.post('/register', async (req, res) => {
 
     //general variable to be used to save new users. Either QA or therapist
     let newUser;
+
     if (role === "therapist") {
       newUser = new Therapist({
         providerCode: providerCode,
         email: email,
         password: hashedPassword,
-        userName: userName,
+        username: username,
         role: role,
       });
     } else if (role === "qa") {
@@ -55,20 +56,20 @@ router.post('/register', async (req, res) => {
         providerCode: providerCode,
         email: email,
         password: hashedPassword,
-        userName: userName,
+        username: username,
         role: role,
       });
 
     } else {
       return res.status(400).json({ message: "Invalid role" });
     };
-
+ 
     await newUser.save();
-    console.log(newUser);
 
-    res.json({ message: "User registered successfully!" });
+    res.json({ message: "User Registered Successfully!" });
   } catch (err) {
-    res.status(500).json({ err: "Registration failed" });
+    console.error(err); // Log the actual error
+    res.status(500).json({ err: "Registration failed", error: err.message });
   }
 });
 
@@ -76,8 +77,8 @@ router.post('/register', async (req, res) => {
 
 router.post("/login", async(req,res) => {
   try {
-      const {userName, password} = req.body;
-      const user = await User.findOne({ userName });
+      const {username, password} = req.body;
+      const user = await User.findOne({ username });
 
       if(!user && !password){
           return res.json({message: "Please Fill Out All Fields"});
@@ -105,7 +106,8 @@ router.post("/login", async(req,res) => {
       };
 
   } catch (error) {
-      console.error(error);
+    console.error(err); // Log the actual error
+    res.status(500).json({ err: "Registration failed", error: err.message });
   };
   
 });

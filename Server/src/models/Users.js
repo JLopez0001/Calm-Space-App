@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema({
   providerCode : {type : Number},
   email: {type : String},
   password: { type : String, required : true },
-  userName: { type : String, required : true , unique: true},
+  username: { type : String, required : true , unique: true},
   role: { type : String, required : true, lowercase: true},
 });
 

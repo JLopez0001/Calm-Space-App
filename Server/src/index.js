@@ -14,7 +14,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 
-
 /* ROUTES */
 app.use("/auth", userRouter);
 app.use("/auth", patientRouter);
@@ -29,4 +28,3 @@ mongoose.connect(process.env.MONGO_URL, {
 }).then(() => {
     app.listen(PORT, () => console.log(`Server Started on Port: ${PORT}`));
 }).catch((error) => console.log(`Error did not connect: ${error}`));
-
