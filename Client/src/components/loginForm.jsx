@@ -17,7 +17,7 @@ const LoginForm = ({username, setUsername, password, setPassword, onSubmit, onVa
                             <Form.Control
                             required
                             type="username" 
-                            placeholder="Enter username"
+                            placeholder="Username"
                             value={username} 
                             onChange={(e) => setUsername(e.target.value)}
                         />

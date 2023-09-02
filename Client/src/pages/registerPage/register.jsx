@@ -35,7 +35,7 @@ const RegisterPage = () => {
             })
             if (response.data.message === "User Registered Successfully!") {
                 alert(`Registration Completed. Welcome ${username}! Please Login`);
-                navigate("/login");
+                navigate("/");
             } else {
                 // Handle registration error, if any
                 const errorMessage = response.data.message;
@@ -48,7 +48,6 @@ const RegisterPage = () => {
   
     return (
         <div>
-            
             <RegisterForm
                 username={username}
                 setUsername={setUsername}

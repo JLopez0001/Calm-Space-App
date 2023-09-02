@@ -1,9 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useCookies } from "react-cookie"
 import axios from 'axios';
 import LoginForm from '../../components/loginForm';
 
+
 const LoginPage = () => {
+
+    const [, setCookies] = useCookies(["access_token"])
+
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -31,6 +36,8 @@ const LoginPage = () => {
             })
 
             if(response.data.message === "Logged In Successfully"){
+                setCookies("access_token", response.data.token); 
+                window.localStorage.setItem("userID", response.data.userID);
                 alert(response.data.message);
                 navigate("/");
             } else {
