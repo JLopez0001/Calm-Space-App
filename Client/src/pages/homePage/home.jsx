@@ -29,7 +29,7 @@ const HomePage = () => {
         .catch((error) => {
             console.error('Error fetching patient data:', error);
         });
-    }, []);
+    }, [userID]);
 
     return (
         <div>
