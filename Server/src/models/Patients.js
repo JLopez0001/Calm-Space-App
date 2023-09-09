@@ -6,6 +6,7 @@ const patientSchema = new mongoose.Schema({
     firstName: {type : String},
     lastName: {type : String},
     phoneNumber: {type : Number},
+    diagnosis: [{type : String}],
     address: {type : String},
     therapistID: { type: mongoose.Schema.Types.ObjectId, ref: 'Therapist' }, // Reference to assigned therapist
 
