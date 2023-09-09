@@ -3,6 +3,7 @@ import { Patient } from "../models/Patients.js";
 import { Therapist } from "../models/Therapist.js";
 import { Note } from "../models/Notes.js";
 import { QA } from "../models/QA.js";
+import { User } from "../models/Users.js";
 
 
 const router = express.Router();
@@ -100,5 +101,45 @@ router.post("/create-note", async (req, res) => {
 });
 
 
+// Get all patients assigned to the therapist._id
+router.get("/patients/:therapistID", async (req, res) => {
+   try {
+        const patients = await Patient.find({therapistID : req.params.therapistID});
+        res.json(patients);
+   } catch (error) {
+        res.json({message : error});
+   } 
+});
+
+// Get a patient by patientID
+router.get("/patient/:patientID", async (req, res) => {
+    try {
+        const patient = await Patient.findOne({patientID : req.params.patientID});
+        res.json(patient);
+    } catch (error) {
+        res.json({message : error});
+    };
+});
+
+router.post("/patient/add-diagnosis/:patientID", async (req, res) => {
+    try {
+        const { diagnosis, icd10 } = req.body;
+        const patient = await Patient.findOneAndUpdate(
+            { patientID: req.params.patientID },
+            { 
+                $push: { 
+                    diagnoses: {
+                        diagnosis,
+                        icd10
+                    } 
+                } 
+            },
+            { new: true }
+        );
+        res.json(patient);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
 export { router as patientRouter };
 
