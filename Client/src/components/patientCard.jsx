@@ -14,7 +14,15 @@ const PatientCard = ({providerCode, firstName, lastName, phoneNumber, address}) 
             <ListGroup.Item>Address: {address}</ListGroup.Item>
         </ListGroup>
         <Card.Body>
-            <Card.Link href="/patient">Patient Chart</Card.Link>
+            <Card.Link 
+              onClick={() => {
+                const patientID = providerCode;
+                window.localStorage.setItem("patientID", patientID);
+              }} 
+              href={`/patient/${providerCode}`}
+            >
+              Patient Chart
+            </Card.Link>
         </Card.Body>
     </Card>
   );

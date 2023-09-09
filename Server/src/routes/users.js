@@ -28,10 +28,10 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ message: "Username already exists" });
     };
 
-    // //Check to see if password is longer than 6 characters
-    // if(password.length < 6){
-    //   return res.status(400).json({message: "Password must be at least 6 characters long"});
-    // };
+    //Check to see if password is longer than 6 characters
+    if(password.length < 6){
+      return res.status(400).json({message: "Password must be at least 6 characters long"});
+    };
 
     // Password Encryption.
     const salt = await bcrypt.genSalt();

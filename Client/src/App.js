@@ -5,6 +5,8 @@ import NavFeature from './components/navbar';
 import HomePage from './pages/homePage/home';
 import LoginPage from './pages/loginPage/login';  
 import RegisterPage from './pages/registerPage/register';
+import CreatePatientPage from './pages/createPatientPage/createPatient';
+import PatientPage from './pages/patientPage/patient';
 import SearchPage from './pages/searchPatientPage/search';
 
 function App() {
@@ -17,6 +19,8 @@ function App() {
             <Route path='/' element={<HomePage/>} />
             <Route path='/login' element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path='/create-patient' element={<CreatePatientPage/>} />
+            <Route path="/patient/:patientID" element={<PatientPage />} />
             <Route path='/search-patient' element={<SearchPage/>} />
           </Routes>
       </Router>
