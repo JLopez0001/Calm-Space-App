@@ -115,11 +115,20 @@ router.get("/patients/:therapistID", async (req, res) => {
 router.get("/patient/:patientID", async (req, res) => {
     try {
         const patient = await Patient.findOne({patientID : req.params.patientID});
-        res.json(patient);
+        if (!patient) {
+            return res.status(404).json({ message: 'Patient not found' });
+        }
+
+        // Fetch notes associated with the patient
+        const notes = await Note.find({ patient: patient._id });
+
+        // You can now include the notes in the response
+        res.json({ patient, notes });
     } catch (error) {
         res.json({message : error});
     };
 });
+
 
 router.post("/patient/add-diagnosis/:patientID", async (req, res) => {
     try {
@@ -141,5 +150,6 @@ router.post("/patient/add-diagnosis/:patientID", async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
+
 export { router as patientRouter };
 

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from 'axios';
-import PatientChart from "../../components/patientPage";
+import PatientChart from "../../components/patientsChart";
 
 const PatientPage = () => {
     const { patientID } = useParams();
@@ -11,6 +11,7 @@ const PatientPage = () => {
         patientID: "",
         diagnoses: [] 
     });
+    const [notes, setNotes] = useState([]);
 
     const onAddDiagnosis = async (newDiagnosis, newICD10) => {
         try {
@@ -40,18 +41,20 @@ const PatientPage = () => {
                     console.log("Received patient data:", response.data); // Debugging log
                     // Ensure that diagnoses is an array, or convert it to an array if it's not
                     const updatedPatientData = {
-                        ...response.data,
-                        diagnoses: Array.isArray(response.data.diagnoses) ? response.data.diagnoses : [],
+                        ...response.data.patient,
+                        diagnoses: Array.isArray(response.data.patient.diagnoses) ? response.data.patient.diagnoses : [],
                     };
                     setPatientData(updatedPatientData);
+                    setNotes(response.data.notes); // Set the notes state
                 } else {
                     console.error('Invalid patient data:', response.data);
                 }
             })
             .catch((error) => {
                 console.error('Error fetching patient data:', error);
-            })
+            });
     }, [patientID]);
+    
 
     console.log("Rendering PatientPage with patientData:", patientData); // Debugging log
 
@@ -63,6 +66,7 @@ const PatientPage = () => {
                 patientID={patientData.patientID}
                 diagnoses={patientData.diagnoses}
                 onAddDiagnosis={onAddDiagnosis} 
+                notes={notes}
             />
         </div>
     )
