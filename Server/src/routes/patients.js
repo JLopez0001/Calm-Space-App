@@ -111,22 +111,26 @@ router.get("/patients/:therapistID", async (req, res) => {
    } 
 });
 
-// Get a patient by patientID
-router.get("/patient/:patientID", async (req, res) => {
+
+// Get a patient by patient ID or patient name and return patient name and patient ID
+router.get("/search-patient/:searchOption/:query", async (req, res) => {
     try {
-        const patient = await Patient.findOne({patientID : req.params.patientID});
-        if (!patient) {
-            return res.status(404).json({ message: 'Patient not found' });
+        const { searchOption, query } = req.params;
+        let patients;
+
+        if (searchOption === 'fullName') {
+            // Search by patient name
+            const [firstName, lastName] = query.split(' ');
+            patients = await Patient.find({ firstName, lastName });
+        } else {
+            // Search by patient ID
+            patients = await Patient.find({ patientID: query });
         }
 
-        // Fetch notes associated with the patient
-        const notes = await Note.find({ patient: patient._id });
-
-        // You can now include the notes in the response
-        res.json({ patient, notes });
+        res.json(patients);
     } catch (error) {
-        res.json({message : error});
-    };
+        res.status(500).json({ message: error.message });
+    }
 });
 
 

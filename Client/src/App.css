@@ -47,6 +47,49 @@ body {
 .patient-row{
   padding: 15px;
   display: flex;
-  justify-content: center; /* Center horizontally */
+  justify-content: center; 
   align-items: center;
+}
+
+/* PATIENT-CHART */
+
+.patient-chart-diagnosis{
+    width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    background: #fff;
+    border: solid 2px #007bf7;
+    border-radius: 10px;
+    box-shadow: 0 0 4px #0272B1, 0 4px 8px #3eb54991;
+    position: absolute;
+    
+}
+
+.patient-chart-notes {
+    width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    background: #fff;
+    border: solid 2px #007bf7;
+    border-radius: 10px;
+    box-shadow: 0 0 4px #0272B1, 0 4px 8px #3eb54991;
+    position: absolute;
+}
+
+.patient-search-form {
+    width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    background: #fff;
+    border: solid 2px #007bf7;
+    border-radius: 10px;
+    box-shadow: 0 0 4px #0272B1, 0 4px 8px #3eb54991;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
 }

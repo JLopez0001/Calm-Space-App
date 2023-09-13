@@ -9,7 +9,7 @@ const noteSchema = new mongoose.Schema({
   appointmentDate: { type: Date, required: true },
   service: {
       type: String,
-      enum: ['Individual psychotherapy 30 min', 'Tele-Audio Individual psychotherapy 30 min', 'Tele-Video Individual psychotherapy 30 min'],
+      enum: ['Individual Psychotherapy 30 min', 'Tele-Audio Individual Psychotherapy 30 min', 'Tele-Video Individual Psychotherapy 30 min'],
       required: true
   }, 
   goals: [{
