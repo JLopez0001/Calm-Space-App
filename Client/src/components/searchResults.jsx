@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const SearchResults = ({ results }) => {
   if (results.length === 0) {
@@ -20,7 +21,11 @@ const SearchResults = ({ results }) => {
               {results.map((result) => (
                 <tr key={result.patientID}>
                   <td>{`${result.firstName} ${result.lastName}`}</td>
-                  <td>{result.patientID}</td>
+                  <td>
+                    <Link to={`/patient/${result.patientID}`}>
+                      {result.patientID}
+                    </Link>
+                  </td>
                 </tr>
               ))}
             </tbody>

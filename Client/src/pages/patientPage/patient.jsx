@@ -19,6 +19,8 @@ const PatientPage = () => {
                 diagnosis: newDiagnosis,
                 icd10: newICD10,
             });
+
+            console.log("Response:", response); // Debugging log
     
             if (response.status === 200) {
                 // Update patientData with the new diagnosis (response.data may contain updated data)

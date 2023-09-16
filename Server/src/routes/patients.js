@@ -133,6 +133,16 @@ router.get("/search-patient/:searchOption/:query", async (req, res) => {
     }
 });
 
+// Get a patient by patient ID
+router.get("/patient/:patientID", async (req, res) => {
+    try {
+        const patient = await Patient.findOne({ patientID: req.params.patientID });
+        const notes = await Note.find({ patient: patient._id });
+        res.json({ patient, notes });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
 
 router.post("/patient/add-diagnosis/:patientID", async (req, res) => {
     try {
