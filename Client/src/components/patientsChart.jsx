@@ -76,7 +76,7 @@ const PatientChart = ({ firstName, lastName, patientID, diagnoses, onAddDiagnosi
                                         notes.map((note, index) => (
                                             <Row key={index}>
                                                 <Col>{note.status}</Col>
-                                                <Col>{note.service}</Col>
+                                                <Col xs={6}>{note.service}</Col>
                                                 <Col>{formatDate(note.appointmentDate)}</Col>
                                             </Row>
                                         ))

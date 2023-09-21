@@ -15,7 +15,6 @@ const noteSchema = new mongoose.Schema({
   goals: [{
       goal: String, // Goal description
       objective: String, // Objective description
-      selected: Boolean // Checkbox to determine if the goal/objective was selected
   }],
   therapist: { type: mongoose.Schema.Types.ObjectId, ref: 'Therapist' },
   patient: { type: mongoose.Schema.Types.ObjectId, ref: 'Patient' },

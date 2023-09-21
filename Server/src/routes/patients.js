@@ -111,28 +111,6 @@ router.get("/patients/:therapistID", async (req, res) => {
    } 
 });
 
-
-// Get a patient by patient ID or patient name and return patient name and patient ID
-router.get("/search-patient/:searchOption/:query", async (req, res) => {
-    try {
-        const { searchOption, query } = req.params;
-        let patients;
-
-        if (searchOption === 'fullName') {
-            // Search by patient name
-            const [firstName, lastName] = query.split(' ');
-            patients = await Patient.find({ firstName, lastName });
-        } else {
-            // Search by patient ID
-            patients = await Patient.find({ patientID: query });
-        }
-
-        res.json(patients);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
 // Get a patient by patient ID
 router.get("/patient/:patientID", async (req, res) => {
     try {
@@ -164,6 +142,28 @@ router.post("/patient/add-diagnosis/:patientID", async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
+
+// Get a patient by patient ID or patient name and return patient name and patient ID
+router.get("/search-patient/:searchOption/:query", async (req, res) => {
+    try {
+        const { searchOption, query } = req.params;
+        let patients;
+
+        if (searchOption === 'fullName') {
+            // Search by patient name
+            const [firstName, lastName] = query.split(' ');
+            patients = await Patient.find({ firstName, lastName });
+        } else {
+            // Search by patient ID
+            patients = await Patient.find({ patientID: query });
+        }
+
+        res.json(patients);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 
 export { router as patientRouter };
 
