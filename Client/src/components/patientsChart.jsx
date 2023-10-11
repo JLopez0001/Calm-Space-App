@@ -4,22 +4,14 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/esm/Button';
 
-const PatientChart = ({ firstName, lastName, patientID, diagnoses, onAddDiagnosis, notes }) => {
 
+const PatientChart = ({ firstName, lastName, patientID, diagnoses, onAddDiagnosis, notes }) => {
     const [newDiagnosis, setNewDiagnosis] = useState('');
     const [newICD10, setNewICD10] = useState('');
     const [displayedDiagnoses, setDisplayedDiagnoses] = useState([]);
     const [showInputFields, setShowInputFields] = useState(false);
 
-    // Function to format the date to a human-readable format
-    const formatDate = (date) => {
-        return new Date(date).toLocaleDateString(undefined, {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-        });
-    };
-
+  
 
     // Function to handle adding a new diagnosis
     const handleAddDiagnosis = () => {
@@ -42,6 +34,25 @@ const PatientChart = ({ firstName, lastName, patientID, diagnoses, onAddDiagnosi
         setShowInputFields(!showInputFields); // Toggle the input fields
     };
     
+
+    const formatDate = (dateString) => {
+        if(!dateString) return ""; // handle falsy values
+        const dateObj = new Date(dateString);
+        const yyyy = dateObj.getUTCFullYear();
+        const mm = String(dateObj.getUTCMonth() + 1).padStart(2, '0'); // January is 0!
+        const dd = String(dateObj.getUTCDate()).padStart(2, '0');
+        return `${yyyy}-${mm}-${dd}`;
+    };
+
+
+    // Function to convert date strings to JavaScript Date objects for sorting
+    const convertToDateObjects = (notes) => {
+        return notes.map((note) => ({
+            ...note,
+            appointmentDate: new Date(note.appointmentDate),
+        }));
+    };
+    
     useEffect(() => {
         // Initialize displayedDiagnoses with the initial diagnoses
         setDisplayedDiagnoses(diagnoses || []);
@@ -55,9 +66,7 @@ const PatientChart = ({ firstName, lastName, patientID, diagnoses, onAddDiagnosi
             </Container>
             <Container>
                 <Row>
-
                     {/* Notes */}
-
                     <Col sm={8}>  
                         <div className="patient-chart-notes">
                             <div className='patient-note-header'>
@@ -73,22 +82,23 @@ const PatientChart = ({ firstName, lastName, patientID, diagnoses, onAddDiagnosi
                             </Row>
                             <Row className='note-info'>
                                 {notes && notes.length > 0 ? (
-                                        notes.map((note, index) => (
+                                    convertToDateObjects(notes)
+                                        .sort((a, b) => b.appointmentDate - a.appointmentDate) // Sort in descending order
+                                        .map((note, index) => (
                                             <Row key={index}>
                                                 <Col>{note.status}</Col>
                                                 <Col xs={6}>{note.service}</Col>
                                                 <Col>{formatDate(note.appointmentDate)}</Col>
                                             </Row>
                                         ))
-                                    ) : (
-                                        <p>No notes available.</p>
-                                    )}
+                                ) : (
+                                    <p>No notes available.</p>
+                                )}
                             </Row>
                         </div>
                     </Col>
-
+    
                     {/* Diagnosis */}
-
                     <Col sm={4}>
                         <div className="patient-chart-diagnosis">
                             <h4>Diagnosis</h4>
@@ -109,7 +119,7 @@ const PatientChart = ({ firstName, lastName, patientID, diagnoses, onAddDiagnosi
                                     ) : (
                                         <p>No diagnosis available.</p>
                                     )}
-
+    
                                     {showInputFields && (
                                         <div>
                                             <input
@@ -134,7 +144,7 @@ const PatientChart = ({ firstName, lastName, patientID, diagnoses, onAddDiagnosi
                                     ) : (
                                         <p>No diagnosis available.</p>
                                     )}
-
+    
                                     {showInputFields && (
                                         <div>
                                             <input
@@ -155,14 +165,12 @@ const PatientChart = ({ firstName, lastName, patientID, diagnoses, onAddDiagnosi
                                 </Col>
                             </Row>
                             <Button variant="primary" onClick={handleAddDiagnosis}>ADD DIAGNOSIS</Button>
-
                         </div>
                     </Col>
-
                 </Row>
             </Container>
         </div>
     );
-};
+}    
 
 export default PatientChart;

@@ -57,7 +57,6 @@ router.post("/create-patient", async (req,res) =>{
 router.post("/create-note", async (req, res) => {
     try {
 
-        `TODO goal/objective populated logic instead of writing the goals.`
         //goal/objective populated
         const { content, appointmentDate, service, goals, riskAssessmentChecked, patientId, therapistProviderCode, qaProviderCode } = req.body;
 
@@ -73,12 +72,13 @@ router.post("/create-note", async (req, res) => {
         // Check if the therapist is assigned to the patient
         if (patient.therapistID.equals(therapist._id)) {
             // The therapist is assigned to the patient, so they can create the note
+            
             const newNote = new Note({
                 content,
                 appointmentDate,
                 service,
                 goals,
-                riskAssessment: {
+                riskAssessmentChecked: {
                     checked: riskAssessmentChecked
                 },
                 qaReviewer: qa._id,

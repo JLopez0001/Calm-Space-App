@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const noteSchema = new mongoose.Schema({
 
-  riskAssessment: {
+  riskAssessmentChecked: {
     checked: { type: Boolean, required: true } // SI/HI assessment checkbox, required
   },
   content: { type: String, required: true }, // Content of the note
@@ -12,7 +12,7 @@ const noteSchema = new mongoose.Schema({
       enum: ['Individual Psychotherapy 30 min', 'Tele-Audio Individual Psychotherapy 30 min', 'Tele-Video Individual Psychotherapy 30 min'],
       required: true
   }, 
-  goals: [{
+  goals: [{ // Array of goals and objectives
       goal: String, // Goal description
       objective: String, // Objective description
   }],
