@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios';
-import PatientCard from "../../components/patientCard";
+import PatientCard from '../../components/patientComponents/createPatient/patientCard';
 import { useGetUserID } from '../../hooks/getUserID';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 
-const HomePage = () => {
+const TherapistHomePage = () => {
 
     const [patients, setPatients] = useState([]);
 
@@ -55,4 +55,4 @@ const HomePage = () => {
     )
 }
 
-export default HomePage;
+export default TherapistHomePage;
