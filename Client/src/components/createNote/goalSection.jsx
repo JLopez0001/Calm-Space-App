@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -6,27 +6,22 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 const GoalSection = ({ goals, setGoals, objectives, setObjectives }) => {
+
+    // TODO - fix the button to add new input fields
     
     const [newGoal, setNewGoal] = useState('');
     const [newObjective, setNewObjective] = useState('');
 
-    const handleAddGoalAndObjective = () => {
-        if (newGoal.trim() !== '' && newObjective.trim() !== '') {
-            // Update goals and objectives arrays using functional update form
+    const handleAddNewGoalAndObjective = () => {
+        if (newGoal.trim() !== '' && !goals.includes(newGoal)) {
             setGoals(prevGoals => [...prevGoals, newGoal]);
-            setObjectives(prevObjectives => [...prevObjectives, newObjective]);
-    
-            // Clear input fields
-            setNewGoal('');
-            setNewObjective('');
         }
+        if (newObjective.trim() !== '' && !objectives.includes(newObjective)) {
+            setObjectives(prevObjectives => [...prevObjectives, newObjective]);
+        }
+        setNewGoal('');
+        setNewObjective('');
     };
-
-    // This useEffect is optional and is just for logging.
-    useEffect(() => {
-        console.log("Goals:", goals);
-        console.log("Objectives:", objectives);
-    }, [goals, objectives]);
 
     return (
         <div>
@@ -40,7 +35,7 @@ const GoalSection = ({ goals, setGoals, objectives, setObjectives }) => {
                             <Form.Control required readOnly value={goal} />
                         </Col>
                         <Col>
-                            <Form.Control required readOnly value={objectives[index]} />
+                            <Form.Control required readOnly value={objectives[index] || ''} />
                         </Col>
                     </Row>
                 ))}
@@ -63,7 +58,7 @@ const GoalSection = ({ goals, setGoals, objectives, setObjectives }) => {
                     </Col>
                 </Row>
                 <Row xs={6}>
-                    <Button type="button" onClick={handleAddGoalAndObjective}>
+                    <Button type="button" onClick={handleAddNewGoalAndObjective}>
                         Add New Input Field
                     </Button>
                 </Row>
@@ -73,4 +68,3 @@ const GoalSection = ({ goals, setGoals, objectives, setObjectives }) => {
 };
 
 export default GoalSection;
-
