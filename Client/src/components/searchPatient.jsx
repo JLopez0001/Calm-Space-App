@@ -28,7 +28,7 @@ const SearchPatient = () => {
                 query = patientID;
             }
     
-            const response = await axios.get(`http://localhost:3001/auth/search-patient/${searchOption}/${query}`);
+            const response = await axios.get(`http://localhost:3001/patients/search-patient/${searchOption}/${query}`);
             if (response.status === 200) {
                 setSearchResults(response.data);
                 console.log('Search results:', response.data);

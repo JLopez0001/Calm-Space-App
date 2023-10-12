@@ -18,7 +18,7 @@ const TherapistHomePage = () => {
         const therapistID = userID;
 
         // Fetch patients assigned to the therapist from the backend.
-        axios.get(`http://localhost:3001/auth/patients/${therapistID}`)
+        axios.get(`http://localhost:3001/patients/patients/${therapistID}`)
         .then((response) => {
             if (Array.isArray(response.data)) {
                 setPatients(response.data);

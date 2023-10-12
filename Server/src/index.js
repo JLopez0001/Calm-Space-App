@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 
 import { userRouter } from "./routes/users.js";
 import { patientRouter } from "./routes/patients.js";
+import { qaRouter } from "./routes/qa.js";
 
 /* CONFIGURATIONS */
 dotenv.config();
@@ -16,7 +17,8 @@ app.use(cors());
 
 /* ROUTES */
 app.use("/auth", userRouter);
-app.use("/auth", patientRouter);
+app.use("/patients", patientRouter);
+app.use("/qa", qaRouter);
 
 
 

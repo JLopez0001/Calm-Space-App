@@ -71,7 +71,7 @@ const NoteForm = () => {
 
         try {
         axios
-            .post('http://localhost:3001/auth/create-note', updatedNoteData)
+            .post('http://localhost:3001/patients/create-note', updatedNoteData)
             .then((response) => {
             console.log(response);
             if (response.data.message === 'Note created successfully!') {

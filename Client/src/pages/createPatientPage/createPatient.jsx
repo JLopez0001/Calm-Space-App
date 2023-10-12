@@ -31,7 +31,7 @@ const CreatePatientPage = () => {
         handleValidation(event);
 
         try {
-            const response = await axios.post("http://localhost:3001/auth/create-patient", {
+            const response = await axios.post("http://localhost:3001/patients/create-patient", {
                 firstName,
                 lastName,
                 phoneNumber,

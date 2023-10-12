@@ -15,7 +15,7 @@ const PatientPage = () => {
 
     const onAddDiagnosis = async (newDiagnosis, newICD10) => {
         try {
-            const response = await axios.post(`http://localhost:3001/auth/patient/add-diagnosis/${patientID}`, {
+            const response = await axios.post(`http://localhost:3001/patients/patient/add-diagnosis/${patientID}`, {
                 diagnosis: newDiagnosis,
                 icd10: newICD10,
             });
@@ -37,7 +37,7 @@ const PatientPage = () => {
     };
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/auth/patient/${patientID}`)
+        axios.get(`http://localhost:3001/patients/patient/${patientID}`)
             .then((response) => {
                 if (response.status === 200) {
                     console.log("Received patient data:", response.data); // Debugging log
