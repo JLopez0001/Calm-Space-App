@@ -2,7 +2,8 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavFeature from './components/navbar';
-import TherapistHomePage from './pages/homePage/therapistHome';
+import TherapistHomePage from './pages/homePages/therapistHome';
+import QAHomePage from './pages/homePages/qaHome';
 import LoginPage from './pages/loginPage/login';  
 import RegisterPage from './pages/registerPage/register';
 import CreatePatientPage from './pages/createPatientPage/createPatient';
@@ -18,6 +19,7 @@ function App() {
         <NavFeature />
           <Routes>
             <Route path='/' element={<TherapistHomePage/>} />
+            <Route path='/qa' element={<QAHomePage/>} />
             <Route path='/login' element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path='/create-patient' element={<CreatePatientPage/>} />

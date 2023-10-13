@@ -88,6 +88,9 @@ router.post("/create-note", async (req, res) => {
             });
 
             await newNote.save();
+            
+            qa.notesToReview.push(newNote._id);
+            await qa.save();
 
             return res.json({ message: 'Note created successfully!' });
         } else {

@@ -8,6 +8,8 @@ import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 
 const TherapistHomePage = () => {
+    
+    const loggedInUsername = window.localStorage.getItem("username");
 
     const [patients, setPatients] = useState([]);
 
@@ -31,8 +33,13 @@ const TherapistHomePage = () => {
         });
     }, [userID]);
 
+
     return (
+
         <div>
+            <div className="greeting-user">
+                <h1>Welcome {loggedInUsername}</h1>
+            </div>
             <div>
                 <Button href="/create-patient">Add Patient</Button>
             </div>

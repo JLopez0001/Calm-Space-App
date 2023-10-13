@@ -6,6 +6,8 @@ import Col from 'react-bootstrap/Col';
 
 const NavFeature = () => {
 
+    /* TODO: Fix home link to go to '/' or '/qa' */
+    
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
             <Container >

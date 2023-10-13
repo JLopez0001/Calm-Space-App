@@ -36,10 +36,24 @@ const LoginPage = () => {
             })
 
             if(response.data.message === "Logged In Successfully"){
+
                 setCookies("access_token", response.data.token); 
                 window.localStorage.setItem("userID", response.data.userID);
+                window.localStorage.setItem("username", response.data.username); 
+
+                // Determine where to navigate based on the role.
+                if (response.data.role === "therapist") {
+                    navigate("/");
+                } else if (response.data.role === "qa") {
+                    navigate("/qa");
+                } else {
+                    console.error("Unexpected role received:", response.data.role);
+                    navigate("/");
+                }
+
+                console.log(response.data.role)
+                
                 alert(response.data.message);
-                navigate("/");
             } else {
                 const errorMessage = response.data.message;
                 alert(errorMessage);

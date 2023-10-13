@@ -31,12 +31,12 @@ const PatientChart = ({ firstName, lastName, patientID, diagnoses, onAddDiagnosi
                     console.error('Error adding diagnosis:', error);
                 });
         }
-        setShowInputFields(!showInputFields); // Toggle the input fields
+        setShowInputFields(!showInputFields); 
     };
     
 
     const formatDate = (dateString) => {
-        if(!dateString) return ""; // handle falsy values
+        if(!dateString) return ""; // Return empty string if dateString is null or undefined
         const dateObj = new Date(dateString);
         const yyyy = dateObj.getUTCFullYear();
         const mm = String(dateObj.getUTCMonth() + 1).padStart(2, '0'); // January is 0!
