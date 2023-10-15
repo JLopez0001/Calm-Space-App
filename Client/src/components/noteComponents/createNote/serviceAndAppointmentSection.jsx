@@ -8,7 +8,7 @@ import moment from 'moment-timezone';
 
 
 
-const HeaderSection = ({service, setService, appointmentDate, setAppointmentDate}) => {
+const HeaderSection = ({service, setService, appointmentDate, setAppointmentDate, readOnly}) => {
 
     const handleAppointmentChange = (e) => {
         setAppointmentDate(e.target.value);
@@ -49,6 +49,7 @@ const HeaderSection = ({service, setService, appointmentDate, setAppointmentDate
                                 max="2024-12-31"
                                 value={formatDate(appointmentDate)}
                                 onChange={handleAppointmentChange} 
+                                readOnly={readOnly}
                             />
                     </Form.Group>
                 </Row>

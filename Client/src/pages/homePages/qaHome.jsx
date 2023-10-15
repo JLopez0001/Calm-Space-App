@@ -10,7 +10,7 @@ const QAHomePage = () => {
         const fetchNotes = async () => {
             try {
                 const qaID = window.localStorage.getItem("userID");
-                const response = await axios.get(`http://localhost:3001/qa/get-notes/${qaID}`);
+                const response = await axios.get(`http://localhost:3001/qa/notes/${qaID}`);
                 setNotes(response.data);
             } catch (error) {
                 console.error("Error fetching notes:", error);

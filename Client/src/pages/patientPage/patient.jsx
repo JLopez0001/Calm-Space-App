@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from 'axios';
-import PatientChart from "../../components/patientComponents/patientsChart";
+import PatientChart from "../../components/patientComponents/patientChart/patientsChart";
 
 const PatientPage = () => {
     const { patientID } = useParams();

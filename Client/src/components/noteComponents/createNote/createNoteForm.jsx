@@ -99,12 +99,14 @@ const NoteForm = () => {
                 setService={setService}
                 appointmentDate={appointmentDate}
                 setAppointmentDate={setAppointmentDate}
+                readOnly={false}
             />
             <GoalSection
                 goals={goals}
                 setGoals={setGoals}
                 objectives={objectives}
                 setObjectives={setObjectives}
+                readOnly={false}
             />
             <ContentSection
                 riskAssessment={riskAssessment}
@@ -115,6 +117,7 @@ const NoteForm = () => {
                 setPatientID={setPatientID}
                 content={content}
                 setContent={setContent}
+                readOnly={false}
             />
             <Button type="submit">Submit Note</Button>
             </Form>

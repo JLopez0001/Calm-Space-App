@@ -5,7 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-const GoalSection = ({ goals, setGoals, objectives, setObjectives }) => {
+const GoalSection = ({ goals, setGoals, objectives, setObjectives, readOnly }) => {
 
     // TODO - fix the button to add new input fields
     
@@ -46,6 +46,7 @@ const GoalSection = ({ goals, setGoals, objectives, setObjectives }) => {
                             placeholder="Goal"
                             value={newGoal}
                             onChange={(e) => setNewGoal(e.target.value)}
+                            readOnly={readOnly}
                         />
                     </Col>
                     <Col>
@@ -54,13 +55,16 @@ const GoalSection = ({ goals, setGoals, objectives, setObjectives }) => {
                             placeholder="Objective"
                             value={newObjective}
                             onChange={(e) => setNewObjective(e.target.value)}
+                            readOnly={readOnly}
                         />
                     </Col>
                 </Row>
                 <Row xs={6}>
+                {!readOnly && (
                     <Button type="button" onClick={handleAddNewGoalAndObjective}>
                         Add New Input Field
                     </Button>
+                )}
                 </Row>
             </Form>
         </div>

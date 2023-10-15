@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form';
 
 
 const ContentSection = ({riskAssessment, setRiskAssessment, qaProviderCode, setQAProviderCode,
-                        patientID, setPatientID,content, setContent}) => {
+                        patientID, setPatientID,content, setContent, readOnly}) => {
     
 
     return (
@@ -23,30 +23,36 @@ const ContentSection = ({riskAssessment, setRiskAssessment, qaProviderCode, setQ
                         label="Assessed for SI/HI"
                         checked={riskAssessment}
                         onChange={(e) => setRiskAssessment(e.target.checked)}
+                        readOnly={readOnly}
                     />
-                    <Form.Label column sm={2}> QA ID: </Form.Label>
-                    <Col sm={10}>
-                        <Form.Control 
-                            required
-                            type="text"
-                            placeholder="Quality Assuance ID"
-                            value={qaProviderCode}
-                            onChange={(e) => setQAProviderCode(e.target.value)}
-                        />
-                    </Col>
+                    {!readOnly && (
+                        <>
+                            <Form.Label column sm={2}> QA ID: </Form.Label>
+                            <Col sm={10}>
+                                <Form.Control 
+                                    required
+                                    type="text"
+                                    placeholder="Quality Assuance ID"
+                                    value={qaProviderCode}
+                                    onChange={(e) => setQAProviderCode(e.target.value)}
+                                    readOnly={readOnly}
+                                />
+                            </Col>
 
-                    <Form.Label column sm={2}> Patient ID:  </Form.Label>
-                    <Col sm={10}>
-                        <Form.Control
-                            required
-                            type="text"
-                            placeholder="Patient ID"
-                            value={patientID}
-                            onChange={(e) => setPatientID(e.target.value)}
-                        />
-                    </Col>
+                            <Form.Label column sm={2}> Patient ID:  </Form.Label>
+                            <Col sm={10}>
+                                <Form.Control
+                                    required
+                                    type="text"
+                                    placeholder="Patient ID"
+                                    value={patientID}
+                                    onChange={(e) => setPatientID(e.target.value)}
+                                    readOnly={readOnly}
+                                />
+                            </Col>
+                        </>
+                    )}  
                 </Form.Group>
-
                 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                     <Form.Label>Description of Session</Form.Label>
                     <Form.Control 

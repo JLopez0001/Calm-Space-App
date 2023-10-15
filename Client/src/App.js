@@ -9,7 +9,8 @@ import RegisterPage from './pages/registerPage/register';
 import CreatePatientPage from './pages/createPatientPage/createPatient';
 import PatientPage from './pages/patientPage/patient';
 import SearchPage from './pages/searchPatientPage/search';
-import CreateNotePage from './pages/createNotePage/createNote';
+import CreateNotePage from './pages/notePages/createNote';
+import NoteDetailsPage from './pages/notePages/noteDetail';
 
 function App() {
   return (
@@ -21,11 +22,12 @@ function App() {
             <Route path='/' element={<TherapistHomePage/>} />
             <Route path='/qa' element={<QAHomePage/>} />
             <Route path='/login' element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
+            <Route path='/register' element={<RegisterPage />} />
             <Route path='/create-patient' element={<CreatePatientPage/>} />
-            <Route path="/patient/:patientID" element={<PatientPage />} />
-            <Route path="/create-note" element={<CreateNotePage />} />
+            <Route path='/patient/:patientID' element={<PatientPage />} />
             <Route path='/search-patient' element={<SearchPage/>} />
+            <Route path='/create-note' element={<CreateNotePage />} />
+            <Route path='/note/:noteID' element={<NoteDetailsPage />} />
           </Routes>
       </Router>
       </header>
