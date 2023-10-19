@@ -19,8 +19,11 @@ const noteSchema = new mongoose.Schema({
   therapist: { type: mongoose.Schema.Types.ObjectId, ref: 'Therapist' },
   patient: { type: mongoose.Schema.Types.ObjectId, ref: 'Patient' },
   qaReviewer: { type: mongoose.Schema.Types.ObjectId, ref: 'QA' },
-  status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' }
-  
+  status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },
+  rejectionReason: {
+    type: String,
+    default: null 
+  },
 });
   
  export const Note = mongoose.model('Note', noteSchema);

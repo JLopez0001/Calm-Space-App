@@ -33,7 +33,11 @@ const QAHomeScreen = ({ userName, notes }) => {
                 {notes.map(note => (
                     <Row key={note._id}>
                         <Col>{formatDate(note.appointmentDate)}</Col>
-                        <Col>{note.patient.firstName} {note.patient.lastName}</Col>
+                        <Col>
+                            <Link to={`/patient/${note.patient.patientID}`}>
+                                {note.patient.firstName} {note.patient.lastName}
+                            </Link>
+                        </Col>
                         <Col>{note.therapist.username}</Col>
                         <Col>
                             <Link to={`/note/${note._id}`}>

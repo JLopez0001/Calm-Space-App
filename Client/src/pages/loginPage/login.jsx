@@ -39,7 +39,9 @@ const LoginPage = () => {
 
                 setCookies("access_token", response.data.token); 
                 window.localStorage.setItem("userID", response.data.userID);
-                window.localStorage.setItem("username", response.data.username); 
+                window.localStorage.setItem("username", response.data.username);
+                window.localStorage.setItem("userRole", response.data.role);
+
 
                 // Determine where to navigate based on the role.
                 if (response.data.role === "therapist") {

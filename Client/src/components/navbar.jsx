@@ -4,17 +4,17 @@ import Navbar from 'react-bootstrap/Navbar';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-const NavFeature = () => {
+const NavFeature = ({ role }) => {
 
-    /* TODO: Fix home link to go to '/' or '/qa' */
-    
+    const homeLink = role === "qa" ? "/qa" : "/";
+
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
-            <Container >
+            <Container>
                 <Navbar.Brand href="/">Calm Space</Navbar.Brand>
                     <Nav className="justify-content-end">
                         <Row>
-                            <Col><Nav.Link href="/">Home</Nav.Link></Col>
+                            <Col><Nav.Link href={homeLink}>Home</Nav.Link></Col>
                             <Col md="auto"><Nav.Link href="/search-patient">Search Patient</Nav.Link></Col>
                             <Col md="auto" ><Nav.Link href="/login">Login</Nav.Link></Col>
                             <Col md="auto"><Nav.Link href="/register">Register</Nav.Link></Col>
@@ -22,7 +22,6 @@ const NavFeature = () => {
                     </Nav>
             </Container>
         </Navbar>
-    
     );
 }
 

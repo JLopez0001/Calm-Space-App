@@ -13,11 +13,13 @@ import CreateNotePage from './pages/notePages/createNote';
 import NoteDetailsPage from './pages/notePages/noteDetail';
 
 function App() {
+  const userRole = window.localStorage.getItem("userRole");
+
   return (
     <div className="App">
       <header className="App-header">
       <Router>
-        <NavFeature />
+        <NavFeature role={userRole} />
           <Routes>
             <Route path='/' element={<TherapistHomePage/>} />
             <Route path='/qa' element={<QAHomePage/>} />

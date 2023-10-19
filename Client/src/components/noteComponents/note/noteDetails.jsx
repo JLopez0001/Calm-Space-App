@@ -2,7 +2,6 @@ import React from "react";
 import HeaderSection from "../createNote/serviceAndAppointmentSection";
 import GoalSection from "../createNote/goalSection";
 import ContentSection from "../createNote/contentSection";
-import Button from "react-bootstrap/esm/Button";
 
 const formatDate = (dateString) => {
     if(!dateString) return ""; // Return empty string if dateString is null or undefined
@@ -17,6 +16,7 @@ const formatDate = (dateString) => {
 const NoteDetails = ({ note }) => {
     if (!note) return <p>Loading note details...</p>;
 
+    console.log(note)
     return (
         <div>
             <div>
@@ -38,10 +38,7 @@ const NoteDetails = ({ note }) => {
                     readOnly={true}
                 />
             </div>
-            <div>
-                <Button>Approve</Button>
-                <Button>Reject</Button>
-            </div>
+            
         </div>
     );
 };
