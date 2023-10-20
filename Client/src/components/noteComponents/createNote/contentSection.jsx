@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form';
 
 
 const ContentSection = ({riskAssessment, setRiskAssessment, qaProviderCode, setQAProviderCode,
-                        patientID, setPatientID,content, setContent, readOnly}) => {
+                        patientID, setPatientID,content, setContent, readOnly, disabled}) => {
     
 
     return (
@@ -18,6 +18,7 @@ const ContentSection = ({riskAssessment, setRiskAssessment, qaProviderCode, setQ
                 <Form.Group as={Row}  md="6" controlId="formGroupFirstName">
                     <Form.Check
                         required
+                        disabled={disabled}
                         type="checkbox"
                         id="risk-assessment-checkbox"
                         label="Assessed for SI/HI"
@@ -61,6 +62,7 @@ const ContentSection = ({riskAssessment, setRiskAssessment, qaProviderCode, setQ
                         rows={3} 
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
+                        readOnly={readOnly}
                     />
                 </Form.Group>
                 

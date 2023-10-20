@@ -3,6 +3,7 @@ import HeaderSection from "../createNote/serviceAndAppointmentSection";
 import GoalSection from "../createNote/goalSection";
 import ContentSection from "../createNote/contentSection";
 
+
 const formatDate = (dateString) => {
     if(!dateString) return ""; // Return empty string if dateString is null or undefined
     const dateObj = new Date(dateString);
@@ -24,6 +25,7 @@ const NoteDetails = ({ note }) => {
                     service={note.service}
                     appointmentDate={formatDate(note.appointmentDate)}
                     readOnly={true} 
+                    disabled={true}
                 />
                 <GoalSection 
                     goals={note.goals.map(g => g.goal)}
@@ -36,6 +38,7 @@ const NoteDetails = ({ note }) => {
                     patientID={note.patientId}
                     content={note.content}
                     readOnly={true}
+                    disabled={true}
                 />
             </div>
             

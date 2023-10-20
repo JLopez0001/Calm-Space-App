@@ -69,7 +69,7 @@ router.post("/note/:noteID/reject", async (req, res) => {
         }
         
         const reason = req.body.reason;  
-        console.log(reason)
+        
         
         // Update note status to rejected and store rejection reason
         note.status = 'rejected';

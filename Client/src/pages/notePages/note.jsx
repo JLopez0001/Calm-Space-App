@@ -3,13 +3,15 @@ import axios from 'axios';
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import NoteDetails from "../../components/noteComponents/note/noteDetails";
+import RejectionMessageModal from "../../components/noteComponents/rejection/message";
+import RejectionModal from "../../components/noteComponents/rejection/modal";
 import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal'
 
-const NoteDetailsPage = () => {
-    const { noteID } = useParams(); // Access route parameters using useParams
-
+const NoteDetailsPage = ({ userRole }) => {
+    
+    const { noteID } = useParams(); 
     const [note, setNote] = useState(null);
+    const [showRejectionMessageModal, setShowRejectionMessageModal] = useState(false);
 
     const navigate = useNavigate();
 
@@ -18,13 +20,19 @@ const NoteDetailsPage = () => {
             try {
                 const response = await axios.get(`http://localhost:3001/qa/note/${noteID}`);
                 setNote(response.data);
+
+                // If the note status is 'rejected' and the user is a therapist, show the rejection message modal
+                if (response.data.status === 'rejected' && userRole === "therapist") {
+                    setShowRejectionMessageModal(true);
+                }
+
             } catch (error) {
                 console.error("Error fetching note details:", error);
             }
         };
 
         fetchNoteDetails();
-    }, [noteID]);
+    }, [noteID, userRole]);
 
     const handleApprove = async () => {
         try {
@@ -52,33 +60,31 @@ const NoteDetailsPage = () => {
             console.error("Error rejecting the note:", error);
         }
     };
-
-
     return (
         <>
-        <NoteDetails note={note} /> 
-        <div>
-            <Button onClick={handleApprove}>Approve</Button>
-            <Button onClick={() => setShowRejectModal(true)}>Reject</Button>
-            <Modal show={showRejectModal} onHide={() => setShowRejectModal(false)}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Reject Note</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <textarea 
-                        value={rejectionReason} 
-                        onChange={e => setRejectionReason(e.target.value)} 
-                        placeholder="Enter rejection reason..."
-                        rows="4" 
-                        style={{ width: '100%' }}
-                    />
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShowRejectModal(false)}>Close</Button>
-                    <Button variant="danger" onClick={handleReject}>Confirm Rejection</Button>
-                </Modal.Footer>
-            </Modal>
-        </div>
+            <NoteDetails note={note} />
+            <div>
+                {userRole === "qa" && (
+                    <>
+                        <Button onClick={handleApprove}>Approve</Button>
+                        <Button onClick={() => setShowRejectModal(true)}>Reject</Button>
+                    </>
+                )}
+
+                <RejectionModal 
+                    show={showRejectModal} 
+                    handleClose={() => setShowRejectModal(false)}
+                    rejectionReason={rejectionReason}
+                    handleReject={handleReject}
+                    setRejectionReason={setRejectionReason}
+                />
+
+                <RejectionMessageModal 
+                    show={showRejectionMessageModal}
+                    handleClose={() => setShowRejectionMessageModal(false)}
+                    message={note?.rejectionReason}
+                />
+            </div>
         </>
     );
 };

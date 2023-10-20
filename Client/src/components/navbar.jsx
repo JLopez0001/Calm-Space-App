@@ -4,9 +4,9 @@ import Navbar from 'react-bootstrap/Navbar';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-const NavFeature = ({ role }) => {
+const NavFeature = ({ userRole }) => {
 
-    const homeLink = role === "qa" ? "/qa" : "/";
+    const homeLink = userRole === "qa" ? "/qa" : "/";
 
     return (
         <Navbar expand="lg" className="bg-body-tertiary">

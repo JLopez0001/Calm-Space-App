@@ -10,7 +10,7 @@ import CreatePatientPage from './pages/createPatientPage/createPatient';
 import PatientPage from './pages/patientPage/patient';
 import SearchPage from './pages/searchPatientPage/search';
 import CreateNotePage from './pages/notePages/createNote';
-import NoteDetailsPage from './pages/notePages/noteDetail';
+import NoteDetailsPage from './pages/notePages/note';
 
 function App() {
   const userRole = window.localStorage.getItem("userRole");
@@ -19,7 +19,7 @@ function App() {
     <div className="App">
       <header className="App-header">
       <Router>
-        <NavFeature role={userRole} />
+        <NavFeature userRole={userRole} />
           <Routes>
             <Route path='/' element={<TherapistHomePage/>} />
             <Route path='/qa' element={<QAHomePage/>} />
@@ -29,7 +29,7 @@ function App() {
             <Route path='/patient/:patientID' element={<PatientPage />} />
             <Route path='/search-patient' element={<SearchPage/>} />
             <Route path='/create-note' element={<CreateNotePage />} />
-            <Route path='/note/:noteID' element={<NoteDetailsPage />} />
+            <Route path='/note/:noteID' element={<NoteDetailsPage userRole={userRole} />} />
           </Routes>
       </Router>
       </header>

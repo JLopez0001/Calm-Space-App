@@ -8,7 +8,7 @@ import moment from 'moment-timezone';
 
 
 
-const HeaderSection = ({service, setService, appointmentDate, setAppointmentDate, readOnly}) => {
+const HeaderSection = ({service, setService, appointmentDate, setAppointmentDate, readOnly, disabled}) => {
 
     const handleAppointmentChange = (e) => {
         setAppointmentDate(e.target.value);
@@ -32,7 +32,7 @@ const HeaderSection = ({service, setService, appointmentDate, setAppointmentDate
                 <Row>
                     <Form.Group as={Col} md="5" controlId="formGroupFirstName">
                         <Form.Label>Service</Form.Label>
-                        <Form.Select required value={service} onChange={(e) => setService(e.target.value)}>
+                        <Form.Select disabled={disabled} required value={service} onChange={(e) => setService(e.target.value)}>
                             <option value="">Please Select Service</option>
                             <option value="Individual Psychotherapy 30 min">Individual Psychotherapy 30 min</option>
                             <option value="Tele-Audio Individual Psychotherapy 30 min">Tele-Audio Individual Psychotherapy 30 min</option>

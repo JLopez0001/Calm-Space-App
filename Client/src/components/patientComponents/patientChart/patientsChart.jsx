@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from "react-router-dom";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -87,7 +88,11 @@ const PatientChart = ({ firstName, lastName, patientID, diagnoses, onAddDiagnosi
                                         .map((note, index) => (
                                             <Row key={index}>
                                                 <Col>{note.status}</Col>
-                                                <Col xs={6}>{note.service}</Col>
+                                                <Col xs={6}>
+                                                    <Link to={`/note/${note._id}`}>
+                                                        {note.service}
+                                                    </Link>
+                                                </Col>
                                                 <Col>{formatDate(note.appointmentDate)}</Col>
                                             </Row>
                                         ))
