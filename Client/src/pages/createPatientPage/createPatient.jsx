@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import PatientForm from '../../components/patientComponents/createPatient/patientForm';
+import PatientForm from '../../components/patientComponent/createPatient/patientForm';
 import axios from 'axios';
 
 const CreatePatientPage = () => {

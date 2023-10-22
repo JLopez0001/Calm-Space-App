@@ -11,6 +11,7 @@ import PatientPage from './pages/patientPage/patient';
 import SearchPage from './pages/searchPatientPage/search';
 import CreateNotePage from './pages/notePages/createNote';
 import NoteDetailsPage from './pages/notePages/note';
+import EditNotePage from './pages/notePages/editNote';
 
 function App() {
   const userRole = window.localStorage.getItem("userRole");
@@ -30,6 +31,7 @@ function App() {
             <Route path='/search-patient' element={<SearchPage/>} />
             <Route path='/create-note' element={<CreateNotePage />} />
             <Route path='/note/:noteID' element={<NoteDetailsPage userRole={userRole} />} />
+            <Route path='/edit-note/:noteID' element={<EditNotePage />} />
           </Routes>
       </Router>
       </header>

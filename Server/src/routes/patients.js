@@ -79,7 +79,7 @@ router.post("/create-note", async (req, res) => {
                 service,
                 goals,
                 riskAssessmentChecked: {
-                    checked: riskAssessmentChecked
+                    checked: req.body.riskAssessmentChecked.checked
                 },
                 qaReviewer: qa._id,
                 therapist: therapist._id,

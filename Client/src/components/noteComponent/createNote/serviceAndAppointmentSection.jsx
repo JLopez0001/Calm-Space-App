@@ -1,14 +1,14 @@
 import React from "react";
-import {useState} from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
-import moment from 'moment-timezone';
+import AnnouncementIcon from '@mui/icons-material/Announcement';
+import { red } from '@mui/material/colors';
 
 
 
-const HeaderSection = ({service, setService, appointmentDate, setAppointmentDate, readOnly, disabled}) => {
+const HeaderSection = ({service, setService, appointmentDate, setAppointmentDate, readOnly, disabled, status, toggleRejectionMessageModal, userRole, note}) => {
 
     const handleAppointmentChange = (e) => {
         setAppointmentDate(e.target.value);
@@ -26,7 +26,17 @@ const HeaderSection = ({service, setService, appointmentDate, setAppointmentDate
     return (
         <div>
             <Row className="note-section-header">
-                <Container> Billing Information </Container>
+                <Col sm={10}>
+                    <Container> Billing Information </Container>
+                </Col>
+                <Col sm={2}>
+                    {(status === 'rejected' || (userRole === 'qa' && note?.rejectionReason)) && 
+                        <AnnouncementIcon 
+                            sx={{ fontSize: 40, color: red[500]}} 
+                            onClick={toggleRejectionMessageModal}
+                        />
+                    }  
+                </Col>
             </Row>
             <Form>
                 <Row>

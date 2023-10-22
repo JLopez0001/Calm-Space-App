@@ -1,6 +1,7 @@
-import NoteForm from "../../components/noteComponents/createNote/createNoteForm";
+import NoteForm from "../../components/noteComponent/createNote/createNoteForm";
 
 const CreateNotePage = () => {
+
     return (
         <div>
             <NoteForm />

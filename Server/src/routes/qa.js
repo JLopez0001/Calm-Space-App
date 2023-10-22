@@ -22,9 +22,9 @@ router.get("/notes/:qaID", async (req, res) => {
 router.get("/note/:noteID", async (req, res) => {
     try {
         const note = await Note.findById(req.params.noteID)
-                               .populate('therapist', 'username')
-                               .populate('patient', 'firstName lastName')
-                               .populate('patient', 'firstName lastName patientID');
+                               .populate('therapist', 'providerCode')
+                               .populate('patient', 'firstName lastName patientID')
+                               .populate('qaReviewer', 'providerCode');
         
         if (!note) {
             return res.status(404).json({ message: 'Note not found' });
@@ -87,5 +87,44 @@ router.post("/note/:noteID/reject", async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
+
+//If note is rejected by QA, therapist can edit the note and resubmit it
+router.put("/note/:noteID/edit", async (req, res) => {
+
+    try {
+        const note = await Note.findById(req.params.noteID);
+        
+        if (!note) {
+            return res.status(404).json({ message: 'Note not found' });
+        }
+
+        // Update note fields here
+        note.riskAssessmentChecked.checked = req.body.riskAssessmentChecked.checked;
+        note.content = req.body.content;
+        note.appointmentDate = req.body.appointmentDate;
+        note.service = req.body.service;
+        note.goals = req.body.goals;
+        note.therapistProviderCode = req.body.therapistProviderCode;
+        note.patientId = req.body.patientId;
+        note.qaProviderCode = req.body.qaProviderCode;
+        note.status = 'pending';
+
+        await note.save();
+
+        // Move the note back to notesToReview for the QA
+        const qa = await QA.findById(note.qaReviewer);
+        if (!qa.notesToReview.includes(note._id)) {
+            qa.notesToReview.push(note._id);
+        }
+        // Remove the note from reviewedNotes since it is being reviewed again
+        qa.reviewedNotes = qa.reviewedNotes.filter(noteId => !noteId.equals(note._id));
+        await qa.save();
+
+        res.json({ message: 'Note edited successfully!' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 
 export { router as qaRouter}

@@ -2,16 +2,19 @@ import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
-import NoteDetails from "../../components/noteComponents/note/noteDetails";
-import RejectionMessageModal from "../../components/noteComponents/rejection/message";
-import RejectionModal from "../../components/noteComponents/rejection/modal";
+import NoteDetails from "../../components/noteComponent/note/noteDetails";
+import RejectionMessageModal from "../../components/noteComponent/rejection/message";
+import RejectionModal from "../../components/noteComponent/rejection/modal";
 import Button from 'react-bootstrap/Button';
 
 const NoteDetailsPage = ({ userRole }) => {
-    
+
     const { noteID } = useParams(); 
     const [note, setNote] = useState(null);
+
     const [showRejectionMessageModal, setShowRejectionMessageModal] = useState(false);
+    const [showRejectModal, setShowRejectModal] = useState(false);
+    const [rejectionReason, setRejectionReason] = useState('');
 
     const navigate = useNavigate();
 
@@ -44,9 +47,6 @@ const NoteDetailsPage = ({ userRole }) => {
         }
     };
 
-    const [showRejectModal, setShowRejectModal] = useState(false);
-    const [rejectionReason, setRejectionReason] = useState('');
-
     const handleReject = async () => {
         try {
             const response = await axios.post(`http://localhost:3001/qa/note/${note._id}/reject`, { reason: rejectionReason });
@@ -62,7 +62,13 @@ const NoteDetailsPage = ({ userRole }) => {
     };
     return (
         <>
-            <NoteDetails note={note} />
+            <div>
+                <NoteDetails 
+                    note={note} 
+                    userRole={userRole}
+                    toggleRejectionMessageModal={() => setShowRejectionMessageModal(true)}
+                />
+            </div>
             <div>
                 {userRole === "qa" && (
                     <>
@@ -84,6 +90,12 @@ const NoteDetailsPage = ({ userRole }) => {
                     handleClose={() => setShowRejectionMessageModal(false)}
                     message={note?.rejectionReason}
                 />
+                {userRole === "therapist" && note?.status === 'rejected' && (
+                    <Button onClick={() => navigate(`/edit-note/${note._id}`)}>
+                        Edit Note
+                    </Button>
+                )}
+
             </div>
         </>
     );

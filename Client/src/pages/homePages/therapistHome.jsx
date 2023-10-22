@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios';
-import PatientCard from '../../components/patientComponents/createPatient/patientCard';
+import PatientCard from '../../components/patientComponent/createPatient/patientCard';
 import { useGetUserID } from '../../hooks/getUserID';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';

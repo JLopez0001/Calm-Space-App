@@ -14,11 +14,11 @@ const formatDate = (dateString) => {
 };
 
 
-const NoteDetails = ({ note }) => {
+const NoteDetails = ({ note , userRole}) => {
+
     if (!note) return <p>Loading note details...</p>;
 
-    console.log(note)
-    return (
+     return (
         <div>
             <div>
                 <HeaderSection
@@ -26,7 +26,10 @@ const NoteDetails = ({ note }) => {
                     appointmentDate={formatDate(note.appointmentDate)}
                     readOnly={true} 
                     disabled={true}
+                    userRole={userRole}  
+                    note={note}
                 />
+
                 <GoalSection 
                     goals={note.goals.map(g => g.goal)}
                     objectives={note.goals.map(g => g.objective)}

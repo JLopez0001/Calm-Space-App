@@ -5,25 +5,27 @@ import Form from 'react-bootstrap/Form';
 import HeaderSection from './serviceAndAppointmentSection';
 import GoalSection from './goalSection';
 import ContentSection from './contentSection';
+import RejectionMessageModal from '../rejection/message';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-const NoteForm = () => {
-        
+const NoteForm = ({ note = {}, isEditMode = false }) => {
+    
     const navigate = useNavigate();
 
-    const [riskAssessment, setRiskAssessment] = useState(false);
-    const [content, setContent] = useState('');
-    const [appointmentDate, setAppointmentDate] = useState('');
-    const [service, setService] = useState('');
-    const [goals, setGoals] = useState([]);
-    const [objectives, setObjectives] = useState([]);
-    const [patientID, setPatientID] = useState('');
-    const [qaProviderCode, setQAProviderCode] = useState('');
-    const [therapistProviderCode, setTherapistProviderCode] = useState('');
-    const [status, setStatus] = useState('pending');
+    const [riskAssessment, setRiskAssessment] = useState(isEditMode ? note.riskAssessmentChecked.checked : false);
+    const [content, setContent] = useState(isEditMode ? note.content : '');
+    const [appointmentDate, setAppointmentDate] = useState(isEditMode ? note.appointmentDate : '');
+    const [service, setService] = useState(isEditMode ? note.service : '');
+    const [goals, setGoals] = useState(isEditMode ? note.goals.map(goalObj => goalObj.goal) : []);
+    const [objectives, setObjectives] = useState(isEditMode ? note.goals.map(goalObj => goalObj.objective) : []);
+    const [patientID, setPatientID] = useState(isEditMode ? note.patient.patientID : '');
+    const [qaProviderCode, setQAProviderCode] = useState(isEditMode ?note.qaReviewer.providerCode : '');
+    const [therapistProviderCode] = useState(isEditMode ? note.therapist.providerCode : '');
+    const [status] = useState(isEditMode ? note.status : 'pending');
+
     const [validated, setValidated] = useState(false);
     const [show, setShow] = useState(false);
 
@@ -32,9 +34,23 @@ const NoteForm = () => {
 
     // Therapist Provider Code in the modal
     const [modalProviderCode, setModalProviderCode] = useState(''); 
+    
+    // Rejection message modal
+    const [showRejectionMessageModal, setShowRejectionMessageModal] = useState(false);
+    const [rejectionMessage] = useState(isEditMode ?note.rejectionReason : ''); 
+
+    const handleShowRejectionMessageModal = () => {
+        setShowRejectionMessageModal(true);
+    }
+
+    const handleCloseRejectionMessageModal = () => {
+        setShowRejectionMessageModal(false);
+    }
 
     const noteData = {
-        riskAssessmentChecked: riskAssessment,
+        riskAssessmentChecked: {
+            checked: riskAssessment,
+        },
         content: content,
         appointmentDate: appointmentDate,
         service: service,
@@ -54,41 +70,38 @@ const NoteForm = () => {
         e.preventDefault();
         const form = e.currentTarget;
         if (form.checkValidity() === false) {
-        e.stopPropagation();
+            e.stopPropagation();
         }
         setValidated(true);
         handleShow();
     };
 
-    const handleModalSubmit = () => {
+    const handleModalSubmit = async () => {
         handleClose();
-
+    
         // Include therapistProviderCode in the noteData
         const updatedNoteData = {
-        ...noteData,
-        therapistProviderCode: modalProviderCode,
+            ...noteData,
+            therapistProviderCode: modalProviderCode,
         };
-
+    
         try {
-        axios
-            .post('http://localhost:3001/patients/create-note', updatedNoteData)
-            .then((response) => {
-            console.log(response);
-            if (response.data.message === 'Note created successfully!') {
-                console.log(response.data.message);
-                navigate(`/patient/${patientID}`);
+            if (isEditMode) {
+                console.log('PUT endpoint:', `/qa/note/${note._id}/edit`);
+                console.log('Data being sent:', updatedNoteData);
+                await axios.put(`http://localhost:3001/qa/note/${note._id}/edit`, updatedNoteData);
             } else {
-                const errorMessage = response.data.message;
-                console.log(errorMessage);
+                // Create a new note
+                await axios.post('http://localhost:3001/patients/create-note', updatedNoteData);
             }
-            })
-            .catch((err) => {
-            console.error('Error submitting:', err);
-            });
+            navigate(`/patient/${patientID}`);
         } catch (err) {
-        console.error('Error submitting:', err);
+            console.error('Error:', err.message);
+            console.error('Error updating note:', err.response.data);
+
         }
     };
+    
 
     return (
         <>
@@ -100,6 +113,14 @@ const NoteForm = () => {
                 appointmentDate={appointmentDate}
                 setAppointmentDate={setAppointmentDate}
                 readOnly={false}
+                status={status}
+                showRejectionMessageModal={handleShowRejectionMessageModal}
+                
+            />
+            <RejectionMessageModal 
+                show={showRejectionMessageModal} 
+                handleClose={handleCloseRejectionMessageModal}
+                message={rejectionMessage}
             />
             <GoalSection
                 goals={goals}

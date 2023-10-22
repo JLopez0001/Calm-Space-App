@@ -1,4 +1,4 @@
-import QAHomeScreen from "../../components/qaComponents/qaHome";
+import QAHomeScreen from "../../components/qaComponent/qaHome";
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 
