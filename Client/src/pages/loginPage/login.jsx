@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from "react-cookie"
 import axios from 'axios';
-import LoginForm from '../../components/loginForm';
+import LoginForm from '../../components/auth/loginForm';
 
 
 const LoginPage = () => {
@@ -41,19 +41,14 @@ const LoginPage = () => {
                 window.localStorage.setItem("userID", response.data.userID);
                 window.localStorage.setItem("username", response.data.username);
                 window.localStorage.setItem("userRole", response.data.role);
+                window.localStorage.setItem("token", response.data.token);
 
 
-                // Determine where to navigate based on the role.
-                if (response.data.role === "therapist") {
-                    navigate("/");
-                } else if (response.data.role === "qa") {
-                    navigate("/qa");
-                } else {
-                    console.error("Unexpected role received:", response.data.role);
-                    navigate("/");
-                }
+                 // Navigate based on the role
+                const destination = response.data.role === "therapist" ? "/" : "/qa";
+                navigate(destination, { replace: true });
 
-                console.log(response.data.role)
+                // console.log(response.data.role)
                 
                 alert(response.data.message);
             } else {

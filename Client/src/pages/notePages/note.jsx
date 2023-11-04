@@ -22,6 +22,7 @@ const NoteDetailsPage = ({ userRole }) => {
         const fetchNoteDetails = async () => {
             try {
                 const response = await axios.get(`http://localhost:3001/qa/note/${noteID}`);
+                console.log(response.data);
                 setNote(response.data);
 
                 // If the note status is 'rejected' and the user is a therapist, show the rejection message modal

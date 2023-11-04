@@ -1,5 +1,5 @@
 import React from 'react'
-import SearchPatient from '../../components/searchPatient';
+import SearchPatient from '../../components/search/searchPatient';
 
 const SearchPage = () => {
     return (

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import RegisterForm from '../../components/registerForm';
+import RegisterForm from '../../components/auth/registerForm';
 
 const RegisterPage = () => {
 

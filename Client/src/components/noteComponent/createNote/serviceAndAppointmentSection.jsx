@@ -8,7 +8,7 @@ import { red } from '@mui/material/colors';
 
 
 
-const HeaderSection = ({service, setService, appointmentDate, setAppointmentDate, readOnly, disabled, status, toggleRejectionMessageModal, userRole, note}) => {
+const HeaderSection = ({service, setService, appointmentDate, setAppointmentDate, readOnly, disabled, status, showRejectionMessageModal, userRole, note}) => {
 
     const handleAppointmentChange = (e) => {
         setAppointmentDate(e.target.value);
@@ -30,12 +30,12 @@ const HeaderSection = ({service, setService, appointmentDate, setAppointmentDate
                     <Container> Billing Information </Container>
                 </Col>
                 <Col sm={2}>
-                    {(status === 'rejected' || (userRole === 'qa' && note?.rejectionReason)) && 
+                    {(userRole === 'qa' || note?.status === 'rejected') && 
                         <AnnouncementIcon 
                             sx={{ fontSize: 40, color: red[500]}} 
-                            onClick={toggleRejectionMessageModal}
+                            onClick={showRejectionMessageModal}
                         />
-                    }  
+                    }
                 </Col>
             </Row>
             <Form>

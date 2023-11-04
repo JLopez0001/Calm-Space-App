@@ -169,4 +169,3 @@ router.get("/search-patient/:searchOption/:query", async (req, res) => {
 
 
 export { router as patientRouter };
-

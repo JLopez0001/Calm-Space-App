@@ -1,3 +1,4 @@
+
 import NoteForm from "../../components/noteComponent/createNote/createNoteForm";
 
 const CreateNotePage = () => {

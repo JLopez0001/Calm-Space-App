@@ -14,10 +14,10 @@ const formatDate = (dateString) => {
 };
 
 
-const NoteDetails = ({ note , userRole}) => {
+const NoteDetails = ({ note , userRole, toggleRejectionMessageModal}) => {
 
     if (!note) return <p>Loading note details...</p>;
-
+    console.log(note.status)
      return (
         <div>
             <div>
@@ -28,6 +28,7 @@ const NoteDetails = ({ note , userRole}) => {
                     disabled={true}
                     userRole={userRole}  
                     note={note}
+                    showRejectionMessageModal={toggleRejectionMessageModal}
                 />
 
                 <GoalSection 
