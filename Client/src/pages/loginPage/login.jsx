@@ -5,7 +5,7 @@ import axios from 'axios';
 import LoginForm from '../../components/auth/loginForm';
 
 
-const LoginPage = () => {
+const LoginPage = ({onLoginSuccess}) => {
 
     const [, setCookies] = useCookies(["access_token"])
 
@@ -27,36 +27,38 @@ const LoginPage = () => {
         setValidated(true);
       };
 
+
     const onSubmit = async (event) => {
-    event.preventDefault();
-    try {
-        const response = await axios.post("http://localhost:3001/auth/login", {   
-                username,
-                password,
-            })
+        event.preventDefault();
+        try {
+            const response = await axios.post("http://localhost:3001/auth/login", {   
+                    username,
+                    password,
+                })
 
-            if(response.data.message === "Logged In Successfully"){
+                if(response.data.message === "Logged In Successfully"){
 
-                setCookies("access_token", response.data.token); 
-                window.localStorage.setItem("userID", response.data.userID);
-                window.localStorage.setItem("username", response.data.username);
-                window.localStorage.setItem("userRole", response.data.role);
-                window.localStorage.setItem("token", response.data.token);
+                    setCookies("access_token", response.data.token); 
+                    window.localStorage.setItem("userID", response.data.userID);
+                    window.localStorage.setItem("username", response.data.username);
+                    window.localStorage.setItem("userRole", response.data.role);
+                    window.localStorage.setItem("token", response.data.token);
+                    
+                    onLoginSuccess();
 
+                    // Navigate based on the role
+                    const destination = response.data.role === "therapist" ? "/" : "/qa";
+                    navigate(destination, { replace: true });
 
-                 // Navigate based on the role
-                const destination = response.data.role === "therapist" ? "/" : "/qa";
-                navigate(destination, { replace: true });
-
-                // console.log(response.data.role)
-                
-                alert(response.data.message);
-            } else {
-                const errorMessage = response.data.message;
-                alert(errorMessage);
-            }
-    } catch (err) {
-        console.error(err)
+                    // console.log(response.data.role)
+                    
+                    alert(response.data.message);
+                } else {
+                    const errorMessage = response.data.message;
+                    alert(errorMessage);
+                }
+        } catch (err) {
+            console.error(err)
     }};
 
     return (

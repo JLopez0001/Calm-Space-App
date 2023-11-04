@@ -1,6 +1,6 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavFeature from './components/navbar';
 import TherapistHomePage from './pages/homePages/therapistHome';
@@ -25,6 +25,10 @@ function App() {
     setLoggedIn(!!token);
   }, []);
 
+  const handleLoginSuccess = useCallback(() => {
+    setLoggedIn(true);
+  }, []);
+
   const handleLogout = () => {
     localStorage.clear();
     setLoggedIn(false);
@@ -40,7 +44,7 @@ function App() {
           <Routes>
             <Route path='/' element={<TherapistHomePage/>} />
             <Route path='/qa' element={<QAHomePage/>} />
-            <Route path='/login' element={<LoginPage />} />
+            <Route path='/login' element={<LoginPage onLoginSuccess={handleLoginSuccess} />} />
             <Route path='/register' element={<RegisterPage />} />
             <Route path='/create-patient' element={<CreatePatientPage/>} />
             <Route path='/patient/:patientID' element={<PatientPage />} />
