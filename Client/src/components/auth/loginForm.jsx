@@ -42,7 +42,7 @@ const LoginForm = ({username, setUsername, password, setPassword, onSubmit, onVa
                             </Form.Control.Feedback>
                         </InputGroup>
                 </Form.Group>
-                <Button type="submit">Submit</Button>
+                <Button className='buttons' type="submit">Submit</Button>
             </Form>
 
         </div>

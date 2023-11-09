@@ -1,45 +1,39 @@
-import { useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-const NavFeature = ({ userRole,loggedIn, handleLogout}) => {
-
+const NavFeature = ({ userRole, loggedIn, handleLogout }) => {
     const homeLink = userRole === "qa" ? "/qa" : "/";
-    const navigate = useNavigate();
-
-    const handleBrandClick = () => {
-        navigate(homeLink);
-      };
-
+    
     return (
-        <Navbar expand="lg" className="bg-body-tertiary">
-            <Container>
-                <Navbar.Brand onClick={handleBrandClick} style={{ cursor: 'pointer'}}>
-                    Calm Space
+        <Navbar expand="lg" className="nav-bar">
+            <Container fluid>
+                <Navbar.Brand as={NavLink} to={homeLink} className="company-name">
+                    <h2>CALM SPACE</h2>
                 </Navbar.Brand>
-                    <Nav className="justify-content-end">
-                        <Row>
-                            {!loggedIn && (
+                <Nav className="justify-content-end">
+                    <Row>
+                        {!loggedIn && (
                             <>
-                                <Col md="auto"><Nav.Link href="/login">Login</Nav.Link></Col>
-                                <Col md="auto"><Nav.Link href="/register">Register</Nav.Link></Col>
+                                <Col md="auto"><NavLink to="/login" className="nav-link">Login</NavLink></Col>
+                                <Col md="auto"><NavLink to="/register" className="nav-link">Register</NavLink></Col>
                             </>
-                            )}
-                            {loggedIn && (
-                                <>
-                                    <Col><Nav.Link href={homeLink}>Home</Nav.Link></Col>
-                                    <Col md="auto"><Nav.Link href="/search-patient">Search Patient</Nav.Link></Col>
-                                    <Col md="auto"><Nav.Link onClick={handleLogout}>Logout</Nav.Link></Col>
-                                </>
-                            )}
-                        </Row>
-                    </Nav>
+                        )}
+                        {loggedIn && (
+                            <>
+                                <Col><NavLink to={homeLink} className="nav-link" activeClassName="active">Home</NavLink></Col>
+                                <Col md="auto"><NavLink to="/search-patient" className="nav-link" activeClassName="active">Search Patient</NavLink></Col>
+                                <Col md="auto"><Nav.Link onClick={handleLogout} className="nav-link">Logout</Nav.Link></Col>
+                            </>
+                        )}
+                    </Row>
+                </Nav>
             </Container>
         </Navbar>
     );
-}
+};
 
 export default NavFeature;

@@ -41,7 +41,7 @@ const TherapistHomePage = () => {
                 <h1>Welcome {loggedInUsername}</h1>
             </div>
             <div>
-                <Button href="/create-patient">Add Patient</Button>
+                <Button  className='buttons' href="/create-patient">Add Patient</Button>
             </div>
             <Row xs={1} md={3} className="patients-card">
                 {patients.map((patient) => (

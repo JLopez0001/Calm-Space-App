@@ -107,7 +107,7 @@ const SearchPatient = () => {
                         </Form.Group>
                     )}
                     <Col>
-                        <Button onClick={handleSearch}>Search</Button>
+                        <Button className='buttons' onClick={handleSearch}>Search</Button>
                     </Col>
                 </Row>
                 <Row>

@@ -5,6 +5,45 @@
 body {
   margin: 0;
   padding: 0;
+  background-color: #1D2228;  
+  color: #E1E2E2;
+}
+
+.buttons {
+  background-color: #FB8122;
+}
+
+.buttons:hover {
+  background-color: #e67300;
+}
+
+
+/* NAV-BAR */
+.nav-bar {
+  background-color: #3699db;
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px;
+}
+.nav-link {
+  color: #E1E2E2;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px;
+}
+
+.nav-link.active {
+  color: black;
+}
+
+.company-name {
+  font-weight: bold;
+  color: #E1E2E2;
+  padding: 10px auto 10px auto;
+  margin-bottom: 2px;
+  border-bottom: 3px solid #FB8122;
+  line-height: 1.2; 
 }
 
 .auth-panel {

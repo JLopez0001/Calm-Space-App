@@ -91,7 +91,7 @@ const RegisterForm = ({email, setEmail, username, setUsername, password, setPass
               </div>
           ))}
         </Form.Group>
-        <Button type="submit">Submit</Button>
+        <Button className='buttons' type="submit">Submit</Button>
       </Form>
 
     </div>
