@@ -26,7 +26,7 @@ router.post("/create-patient", async (req,res) =>{
         const therapist = await Therapist.findOne({providerCode : therapistProviderCode});
 
         if (!therapist) {
-        return res.status(400).json({ message: 'Invalid therapist ID' });
+        return res.status(400).json({ message: 'Invalid Therapist ID' });
         };
 
         const patientID = await generatePatientID();
@@ -68,6 +68,18 @@ router.post("/create-note", async (req, res) => {
         const therapist = await Therapist.findOne({providerCode : therapistProviderCode});
         const patient = await Patient.findOne({patientID : patientId});
         const qa = await QA.findOne({providerCode : qaProviderCode});
+
+        if (!therapist) {
+            return res.status(404).json({ message: 'Therapist not found with provided provider code.' });
+        }
+
+        if (!patient) {
+            return res.status(404).json({ message: 'Patient not found with provided patient ID.' });
+        }
+
+        if (!qa) {
+            return res.status(404).json({ message: 'QA not found with provided provider code.' });
+        }
 
         // Check if the therapist is assigned to the patient
         if (patient.therapistID.equals(therapist._id)) {

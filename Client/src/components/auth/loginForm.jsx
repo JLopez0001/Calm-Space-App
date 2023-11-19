@@ -3,11 +3,11 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 
 
-const LoginForm = ({username, setUsername, password, setPassword, onSubmit, onValidate,validated}) =>{
+const LoginForm = ({username, setUsername, password, setPassword, onSubmit,validated}) =>{
 
     return (
-        <div className='auth-panel'>
-             <Form noValidate validated={validated} onValidate={onValidate} onSubmit={onSubmit}>
+        <div className='form-panel auth-panel'>
+             <Form noValidate validated={validated} onSubmit={onSubmit}>
                 <div className='auth-panel-header'>
                     <h1>Login</h1>
                 </div>
@@ -15,6 +15,7 @@ const LoginForm = ({username, setUsername, password, setPassword, onSubmit, onVa
                     <Form.Label>Username</Form.Label>
                         <InputGroup hasValidation>
                             <Form.Control
+                            className='input-placeholder' 
                             required
                             type="username" 
                             placeholder="Username"
@@ -30,7 +31,8 @@ const LoginForm = ({username, setUsername, password, setPassword, onSubmit, onVa
                 <Form.Group className="mb-3" controlId="formGroupPassword">
                     <Form.Label>Password</Form.Label>
                         <InputGroup hasValidation>
-                            <Form.Control 
+                            <Form.Control
+                                className='input-placeholder' 
                                 required
                                 type="password" 
                                 placeholder="Password" 
@@ -42,9 +44,8 @@ const LoginForm = ({username, setUsername, password, setPassword, onSubmit, onVa
                             </Form.Control.Feedback>
                         </InputGroup>
                 </Form.Group>
-                <Button className='buttons' type="submit">Submit</Button>
+                <Button className='buttons auth-button' type="submit">Submit</Button>
             </Form>
-
         </div>
     );
 };

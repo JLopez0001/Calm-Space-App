@@ -11,8 +11,8 @@ const NavFeature = ({ userRole, loggedIn, handleLogout }) => {
     return (
         <Navbar expand="lg" className="nav-bar">
             <Container fluid>
-                <Navbar.Brand as={NavLink} to={homeLink} className="company-name">
-                    <h2>CALM SPACE</h2>
+                <Navbar.Brand as={NavLink} to={homeLink}>
+                    <h2 className="company-name">CALM SPACE</h2>
                 </Navbar.Brand>
                 <Nav className="justify-content-end">
                     <Row>

@@ -41,80 +41,91 @@ const SearchPatient = () => {
     };
 
     return (
-        <Form>
-            <div className="patient-search-form">
-                <h4> Search By </h4>
-                {['fullName', 'patientID'].map((option) => (
-                    <Form.Check
-                        key={option}
-                        inline
-                        label={option === 'fullName' ? 'Full Name' : 'Patient ID'}
-                        name="searchOption"
-                        type="radio"
-                        id={`inline-${option}`}
-                        value={option}
-                        checked={searchOption === option}
-                        onChange={handleOptionChange}
-                    />
-                ))}
-                <Row>
-                    {searchOption === 'fullName' && (
-                        <>
-                            <Form.Group as={Col} md="auto" controlId="formGroupFirstName">
-                                <InputGroup hasValidation>
-                                    <Form.Control
-                                        required
-                                        type="text"
-                                        placeholder="First Name: John"
-                                        value={firstName}
-                                        onChange={(e) => setFirstName(e.target.value)}
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        Please add a First Name.
-                                    </Form.Control.Feedback>
-                                </InputGroup>
-                            </Form.Group>
-                            <Form.Group as={Col} md="auto" controlId="formGroupLastName">
-                                <InputGroup hasValidation>
-                                    <Form.Control
-                                        required
-                                        type="text"
-                                        placeholder="Last Name: Doe"
-                                        value={lastName}
-                                        onChange={(e) => setLastName(e.target.value)}
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        Please add a Last Name.
-                                    </Form.Control.Feedback>
-                                </InputGroup>
-                            </Form.Group>
-                        </>
-                    )}
-                    {searchOption === 'patientID' && (
-                        <Form.Group as={Col} md="auto" controlId="formGroupPatientID">
-                            <InputGroup hasValidation>
-                                <Form.Control
-                                    required
-                                    type="text"
-                                    placeholder="Patient ID"
-                                    value={patientID}
-                                    onChange={(e) => setPatientID(e.target.value)}
-                                />
-                                <Form.Control.Feedback type="invalid">
-                                    Please add patient Id.
-                                </Form.Control.Feedback>
-                            </InputGroup>
-                        </Form.Group>
-                    )}
-                    <Col>
-                        <Button className='buttons' onClick={handleSearch}>Search</Button>
-                    </Col>
-                </Row>
+        <Form className='form-panel'>
+                <h4 className='search-title'> Search By </h4>
+                <div className='search-radio'>
+                    {['fullName', 'patientID'].map((option) => (
+                        <Form.Check
+                            key={option}
+                            inline
+                            label={option === 'fullName' ? 'Full Name' : 'Patient ID'}
+                            name="searchOption"
+                            type="radio"
+                            id={`inline-${option}`}
+                            value={option}
+                            checked={searchOption === option}
+                            onChange={handleOptionChange}
+                        />
+                    ))}
+                </div>
+                <div className='search-info-row'>
+                    <Row className="justify-content-md-center">
+                        {searchOption === 'fullName' && (
+                            <>
+                                <Col md={4}>
+                                    <Form.Group controlId="formGroupFirstName">
+                                        <InputGroup hasValidation>
+                                            <Form.Control
+                                                required
+                                                type="text"
+                                                className='input-placeholder'
+                                                placeholder="First Name: John"
+                                                value={firstName}
+                                                onChange={(e) => setFirstName(e.target.value)}
+                                            />
+                                            <Form.Control.Feedback type="invalid">
+                                                Please add a First Name.
+                                            </Form.Control.Feedback>
+                                        </InputGroup>
+                                    </Form.Group>
+                                </Col>
+
+                                <Col md={4}>
+                                    <Form.Group controlId="formGroupLastName">
+                                        <InputGroup hasValidation>
+                                            <Form.Control
+                                                className='input-placeholder'
+                                                required
+                                                type="text"
+                                                placeholder="Last Name: Doe"
+                                                value={lastName}
+                                                onChange={(e) => setLastName(e.target.value)}
+                                            />
+                                            <Form.Control.Feedback type="invalid">
+                                                Please add a Last Name.
+                                            </Form.Control.Feedback>
+                                        </InputGroup>
+                                    </Form.Group>
+                                </Col>
+                            </>
+                        )}
+                        {searchOption === 'patientID' && (
+                            <Col md={5}>
+                                <Form.Group controlId="formGroupPatientID">
+                                    <InputGroup hasValidation>
+                                        <Form.Control
+                                            required
+                                            type="text"
+                                            placeholder="Patient ID"
+                                            className='input-placeholder'
+                                            value={patientID}
+                                            onChange={(e) => setPatientID(e.target.value)}
+                                        />
+                                        <Form.Control.Feedback type="invalid">
+                                            Please add patient Id.
+                                        </Form.Control.Feedback>
+                                    </InputGroup>
+                                </Form.Group>
+                            </Col>
+                        )}
+                        <Col md={3} className="d-flex align-items-center pl-0">
+                            <Button className='buttons search-button' onClick={handleSearch}>Search</Button>
+                        </Col>
+                    </Row>
+                </div>
                 <Row>
                     <SearchResults results={searchResults} />
-                </Row>
-            </div>
-            
+                </Row>            
         </Form>
     );
 };

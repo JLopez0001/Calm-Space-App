@@ -41,20 +41,18 @@ const TherapistHomePage = () => {
                 <h1>Welcome {loggedInUsername}</h1>
             </div>
             <div>
-                <Button  className='buttons' href="/create-patient">Add Patient</Button>
+                <Button  className='buttons add-patient-button' href="/create-patient">Add Patient</Button>
             </div>
-            <Row xs={1} md={3} className="patients-card">
+            <Row xs={1} md={3}>
                 {patients.map((patient) => (
-                    <Col key={patient._id}>
-                        <div className='card'>
-                            <PatientCard
-                                providerCode={patient.patientID}
-                                firstName={patient.firstName}
-                                lastName={patient.lastName}
-                                phoneNumber={patient.phoneNumber}
-                                address={patient.address}
-                            />
-                        </div>
+                    <Col className='d-flex justify-content-center' key={patient._id}>
+                        <PatientCard
+                            providerCode={patient.patientID}
+                            firstName={patient.firstName}
+                            lastName={patient.lastName}
+                            phoneNumber={patient.phoneNumber}
+                            address={patient.address}
+                        />
                     </Col>
                 ))}
             </Row>

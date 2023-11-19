@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { toast } from "react-hot-toast";
 import NoteForm from "../../components/noteComponent/createNote/createNoteForm";
 import RejectionMessageModal from "../../components/noteComponent/rejection/message";
 
 const EditNotePage = () => { 
+    const navigate = useNavigate();
     const { noteID } = useParams(); 
     const [note, setNote] = useState(null);
 
@@ -26,10 +29,9 @@ const EditNotePage = () => {
         fetchNoteDetails();
     }, [noteID]);
 
-    console.log("Full note object:", note);
+    // console.log("Full note object:", note);
 
-
-    if (!note) return <p>Loading note details...</p>;
+    if (!note) return toast.loading("Loading Note") || <p>Loading note details...</p>;
 
     return (
         <>

@@ -1,27 +1,89 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
 }
 
 body {
   margin: 0;
   padding: 0;
-  background-color: #1D2228;  
+  background-color: #E1E2E2;
   color: #E1E2E2;
+  font-family: 'PT Serif', serif;
 }
 
 .buttons {
   background-color: #FB8122;
+  color: white;
 }
 
 .buttons:hover {
   background-color: #e67300;
 }
 
+.icons {
+  margin: 0 20px;
+  color: #E1E2E2;
+}
+
+
+/* FORMS */
+
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 120px); /* Adjust for header/footer height */
+  padding: 20px; /* Optional padding */
+}
+
+.form-panel {
+  width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  color: #03071e;
+  background: #fff;
+  border: solid 2px #007bf7;
+  border-radius: 10px;
+  box-shadow: 0 0 30px #3699db;
+}
+
+.note-form-container {
+  display: flex;
+  flex-direction: column; 
+  align-items: center; 
+  height: auto; 
+  padding: 20px;
+}
+
+
+.note-form-panel {
+  width: 800px;
+  margin: auto; 
+  padding: 20px;
+  color: #03071e;
+  background: #fff;
+  border: solid 2px #007bf7;
+  border-radius: 10px;
+  box-shadow: 0 0 30px #3699db;
+}
+
+.create-note-form {
+  width: 70%;
+  margin: 50px;
+}
+
 
 /* NAV-BAR */
+
 .nav-bar {
   background-color: #3699db;
-  color: black;
+  color: #03071e;
   font-size: 20px;
   font-weight: bold;
   padding: 10px;
@@ -34,102 +96,237 @@ body {
 }
 
 .nav-link.active {
-  color: black;
+  color: #03071e;
 }
 
 .company-name {
   font-weight: bold;
-  color: #E1E2E2;
-  padding: 10px auto 10px auto;
-  margin-bottom: 2px;
+  color: white;
   border-bottom: 3px solid #FB8122;
-  line-height: 1.2; 
+  line-height: 1.5; 
 }
 
+/* FOOTER */
+
+.footer {
+  background-color: #3699db;
+  text-align: center;
+  bottom: 0;
+  width: 100%;
+  font-family: 'PT Serif', serif;
+}
+
+.copyright {
+  color: #E1E2E2;
+}
+
+.contact-footer {
+  padding-bottom: 20px;
+}
+/* HOME PAGE */
+
+.greeting-user {
+  font-size: 30px;
+  font-weight: bold;
+  color: #03071e;
+  padding: 30px;
+}
+
+.add-patient-button {
+  width: 20rem;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+
+/* PATIENTS */
+
+.patient-card {
+  margin: 20px 20px; 
+  border: solid 2px #007bf7;
+  box-shadow: 0 0 30px #3699db;
+}
+
+.patient-chart-link {
+  color: #FB8122;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px;
+}
+
+.patient-info {
+  font-size: 35px;
+  font-weight: bold;
+  color: #03071e;
+  padding: 10px;
+}
+
+.create-patient-row  {
+  padding: 15px;
+} 
+
+
+/* SEARCH PAGE */
+
+.search-title {
+  font-size: 30px;
+  font-weight: bold;
+  color: #03071e;
+  padding: 10px;
+}
+
+.search-radio {
+  padding-left: 23px;
+}
+
+.search-info-row{
+  padding: 20px;
+  margin-left: 160px;
+}
+
+.input-placeholder {
+  border: 1.2px solid;
+}
+
+.search-placeholder::placeholder {
+  color: #343434;
+  opacity: 30%;
+}
+
+.search-button {
+  width:  80%;
+  
+}
+
+.table { 
+  border: solid 1px;
+
+}
+
+.link{
+  color: #FB8122;
+  font-size: 17px;
+}
+
+
+/* AUTH PAGE */
+
 .auth-panel {
-
     width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    background: #fff;
-    border: solid 2px #007bf7;
-    border-radius: 10px;
-    box-shadow: 0 0 4px #0272B1, 0 4px 8px #3eb54991;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
 }
 
 .auth-panel-header {
-    padding: 16px;
+    padding: 25px;
 }
 
-.patient-form {
-  width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  background: #fff;
-  border: solid 2px #007bf7;
-  border-radius: 10px;
-  box-shadow: 0 0 4px #0272B1, 0 4px 8px #3eb54991;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
+.auth-button {
+    width: 30%;
+    margin: 10px;
 }
 
-.patient-row{
-  padding: 15px;
-  display: flex;
-  justify-content: center; 
-  align-items: center;
+
+/* PATIENT CHART */
+
+.patient-chart-header {
+  color: #03071e;
+  padding: 35px;
 }
 
-/* PATIENT-CHART */
-
-.patient-chart-diagnosis{
-    width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    background: #fff;
-    border: solid 2px #007bf7;
-    border-radius: 10px;
-    box-shadow: 0 0 4px #0272B1, 0 4px 8px #3eb54991;
-    position: absolute;
-    
+.patient-chart-info {
+  font-size: 32px;
+  font-weight: bold;
 }
 
 .patient-chart-notes {
-    width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    background: #fff;
-    border: solid 2px #007bf7;
-    border-radius: 10px;
-    box-shadow: 0 0 4px #0272B1, 0 4px 8px #3eb54991;
-    position: absolute;
+  width: 90%;
+  margin: 0 auto 50px auto;
+  padding: 20px;
+  color: #03071e;
+  background: #fff;
+  border: solid 2px #007bf7;
+  border-radius: 10px;
+  box-shadow: 0 0 30px #3699db;
 }
 
-.patient-search-form {
-    width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    background: #fff;
-    border: solid 2px #007bf7;
-    border-radius: 10px;
-    box-shadow: 0 0 4px #0272B1, 0 4px 8px #3eb54991;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.patient-notes{
+  padding-left: 150px;
+}
 
+.patient-note-table {
+  margin: 20px 0;
+}
+
+.patient-chart {
+  padding: 5px
+}
+
+.patient-chart-diagnosis {
+  padding: 15px
+}
+
+.diagnosis-button {
+  margin: 10px 10px; 
+}
+
+
+/* NOTES */
+
+.progress-note-title {
+ margin: 25px auto;
+}
+
+.note-header {
+  color: #03071e;
+  margin: 25px auto;  
+}
+
+.goal-button {
+  margin: 10px 25px; 
+}
+
+.content-section {
+  margin-top: 25px;
+  width: 90%;
+}
+
+.content-row {
+  margin-left: 100px;
+}
+
+.form-check-input {
+  border: 1.5px solid
+}
+
+.form-check-input:checked {
+  background-color: #FB8122;
+}
+
+.edit-note-button {
+  margin-top: 10px; 
+}
+
+.note-details-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; 
+}
+
+/*  QA HOME */
+
+.table-info {
+  width: 90%;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+
+/* IMAGES */
+
+.image-background {
+  background-image: url("../public/images/background-image.jpeg");
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
 }
 

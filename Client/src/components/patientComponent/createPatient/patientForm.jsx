@@ -10,16 +10,18 @@ const PatientForm = ({firstName, setFirstName, lastName, setLastName,
                      address, setAddress, phoneNumber, setPhoneNumber, providerCode,
                       setProviderCode,onSubmit,validated}) => {
     return (
-        <div className='patient-form'>
+        <div className='form-panel'>
+            <h1 className='form-title'>Create Patient</h1>
             <Form noValidate validated={validated} onSubmit={onSubmit}>
-                <Row className="patient-row">
-                    <Form.Group as={Col} md="5" controlId="formGroupFirstName">
-                        <Form.Label>First name</Form.Label>
+                <Row className='create-patient-row d-flex justify-content-center'>
+                    <Form.Group as={Col} md="5" controlId='formGroupFirstName'>
+                        <Form.Label>First Name</Form.Label>
                             <InputGroup hasValidation>
                                 <Form.Control
+                                    className='input-placeholder'
                                     required
-                                    type="firstName"
-                                    placeholder='First name'
+                                    type='firstName'
+                                    placeholder='First Name'
                                     value={firstName}
                                     onChange={(e) => setFirstName(e.target.value)}
                                 />
@@ -30,12 +32,13 @@ const PatientForm = ({firstName, setFirstName, lastName, setLastName,
                     </Form.Group>
 
                     <Form.Group as={Col} md="5" controlId="formGroupLastName">
-                        <Form.Label>Last name</Form.Label>
-                            <InputGroup hasValidation>
+                        <Form.Label>Last Name</Form.Label>
+                            <InputGroup  hasValidation>
                                 <Form.Control
+                                    className='input-placeholder'
                                     required
-                                    type="lastName"
-                                    placeholder='Last name'
+                                    type='lastName'
+                                    placeholder='Last Name'
                                     value={lastName}
                                     onChange={(e) => setLastName(e.target.value)}
                                 />
@@ -46,14 +49,15 @@ const PatientForm = ({firstName, setFirstName, lastName, setLastName,
                     </Form.Group>
                 </Row>
 
-                <Row className="patient-row">
+                <Row className='create-patient-row  d-flex justify-content-center'>
                     <Form.Group as={Col} md="5" controlId="formGroupPhoneNumber">
                         <Form.Label>Phone Number</Form.Label>
                             <InputGroup hasValidation>
                                 <Form.Control
+                                    className='input-placeholder' 
                                     required
-                                    type="phoneNumber"
-                                    placeholder='phoneNumber'
+                                    type='phoneNumber'
+                                    placeholder='Phone Number'
                                     value={phoneNumber}
                                     onChange={(e) => setPhoneNumber(e.target.value)}
                                 />
@@ -67,9 +71,10 @@ const PatientForm = ({firstName, setFirstName, lastName, setLastName,
                         <Form.Label>Address</Form.Label>
                             <InputGroup hasValidation>
                                 <Form.Control
+                                    className='input-placeholder'
                                     required
-                                    type="address"
-                                    placeholder='address'
+                                    type='address'
+                                    placeholder='Address'
                                     value={address}
                                     onChange={(e) => setAddress(e.target.value)}
                                 />
@@ -80,14 +85,15 @@ const PatientForm = ({firstName, setFirstName, lastName, setLastName,
                     </Form.Group>
                 </Row>
 
-                <Row className="patient-row">
+                <Row className='create-patient-row d-flex justify-content-center'>
                     <Form.Group as={Col} md="5" controlId="formGroupProviderCode">
                         <Form.Label>Provider Code</Form.Label>
                             <InputGroup hasValidation>
                                 <Form.Control
+                                    className='input-placeholder' 
                                     required
-                                    type="providerCode"
-                                    placeholder='provider code'
+                                    type='providerCode'
+                                    placeholder='i.e. 123456'
                                     value={providerCode}
                                     onChange={(e) => setProviderCode(e.target.value)}
                                 />
@@ -97,7 +103,7 @@ const PatientForm = ({firstName, setFirstName, lastName, setLastName,
                             </InputGroup>
                     </Form.Group>
                 </Row>
-                <Button type="submit">Submit form</Button>
+                <Button className='buttons' type="submit">Submit form</Button>
             </Form>         
         </div>
     );

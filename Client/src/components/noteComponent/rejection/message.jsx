@@ -6,13 +6,13 @@ const RejectionMessageModal = ({ show, handleClose, message }) => {
     return (
         <Modal centered show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-                <Modal.Title>Rejection Reason</Modal.Title>
+                <Modal.Title style={{color : '#03071e'}}>Rejection Reason</Modal.Title>
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body style={{color : "#03071e"}} >
                 {message}
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="danger" onClick={handleClose}>Close</Button>
+                <Button className='buttons' variant="danger" onClick={handleClose}>Close</Button>
             </Modal.Footer>
         </Modal>
     );

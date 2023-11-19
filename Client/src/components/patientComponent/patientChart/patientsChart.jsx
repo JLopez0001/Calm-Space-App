@@ -1,40 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/esm/Button';
-
+import Table from 'react-bootstrap/Table';
 
 const PatientChart = ({ firstName, lastName, patientID, diagnoses, onAddDiagnosis, notes }) => {
     const [newDiagnosis, setNewDiagnosis] = useState('');
     const [newICD10, setNewICD10] = useState('');
-    const [displayedDiagnoses, setDisplayedDiagnoses] = useState([]);
     const [showInputFields, setShowInputFields] = useState(false);
 
-  
+    const toggleInputFields = () => {
+        setShowInputFields(!showInputFields);
+        if (showInputFields) {
+            setNewDiagnosis('');
+            setNewICD10('');
+        }
+    };
 
-    // Function to handle adding a new diagnosis
-    const handleAddDiagnosis = () => {
-        if (newDiagnosis.trim() !== '') {
+    const handleAddNewDiagnosis = () => {
+        if (newDiagnosis.trim() !== '' && newICD10.trim() !== '') {
             onAddDiagnosis(newDiagnosis, newICD10)
-                .then((response) => {
-                    if (response.status === 200) {
-                        // Update displayedDiagnoses immediately after a successful add
-                        setDisplayedDiagnoses([...displayedDiagnoses, { diagnosis: newDiagnosis, icd10: newICD10 }]);
-                        setNewDiagnosis('');
-                        setNewICD10('');
-                    } else {
-                        console.error('Failed to add diagnosis:', response.data);
-                    }
+                .then(() => {
+                    setNewDiagnosis('');
+                    setNewICD10('');
+                    setShowInputFields(false);
                 })
                 .catch((error) => {
                     console.error('Error adding diagnosis:', error);
                 });
         }
-        setShowInputFields(!showInputFields); 
     };
-    
 
     const formatDate = (dateString) => {
         if(!dateString) return ""; // Return empty string if dateString is null or undefined
@@ -53,123 +50,120 @@ const PatientChart = ({ firstName, lastName, patientID, diagnoses, onAddDiagnosi
             appointmentDate: new Date(note.appointmentDate),
         }));
     };
-    
-    useEffect(() => {
-        // Initialize displayedDiagnoses with the initial diagnoses
-        setDisplayedDiagnoses(diagnoses || []);
-    }, [diagnoses]);
 
     return (
-        <div className='patient-chart-header'>
-            <Container>
-                <h2>{firstName} {lastName} </h2>
-                <h3>Patient ID: {patientID}</h3>
+        <div>
+            <Container className='patient-info patient-chart-header'>
+                <h2 className='patient-chart-info'>{firstName} {lastName} </h2>
+                <h3 className='patient-chart-info'> Patient ID: {patientID}</h3>
             </Container>
-            <Container>
+            <Container fluid >
                 <Row>
                     {/* Notes */}
-                    <Col sm={8}>  
-                        <div className="patient-chart-notes">
-                            <div className='patient-note-header'>
+                    <Col sm={12} lg={8}>  
+                        <div className='patient-chart-notes'>
+                            <div className='patient-chart'>
                                 <Row>
-                                    <Col sm={9}> <h4>Patients Notes</h4> </Col>
-                                    <Col sm={3}> <Button href='/create-note'>Add Note</Button> </Col>
+                                    <Col className='patient-notes d-flex justify-content-center' sm={9}> <h4>Patients Notes</h4> </Col>
+                                    <Col sm={3}> <Button  className='buttons' href='/create-note'>Add Note</Button> </Col>
                                 </Row>
                             </div>
-                            <Row>
-                                <Col>Status</Col>
-                                <Col>Note</Col>
-                                <Col>Appointment Date</Col>
-                            </Row>
-                            <Row className='note-info'>
-                                {notes && notes.length > 0 ? (
-                                    convertToDateObjects(notes)
-                                        .sort((a, b) => b.appointmentDate - a.appointmentDate) // Sort in descending order
-                                        .map((note, index) => (
-                                            <Row key={index}>
-                                                <Col>{note.status}</Col>
-                                                <Col xs={6}>
-                                                    <Link to={`/note/${note._id}`}>
-                                                        {note.service}
-                                                    </Link>
-                                                </Col>
-                                                <Col>{formatDate(note.appointmentDate)}</Col>
-                                            </Row>
-                                        ))
-                                ) : (
-                                    <p>No notes available.</p>
-                                )}
-                            </Row>
+                            <Table className='patient-note-table' striped bordered hover>
+                                <thead>
+                                    <tr>
+                                        <th>Status</th>
+                                        <th>Note</th>
+                                        <th>Appointment Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {notes && notes.length > 0 ? (
+                                        convertToDateObjects(notes)
+                                            .sort((a, b) => b.appointmentDate - a.appointmentDate)
+                                            .map((note, index) => (
+                                                <tr key={index}>
+                                                    <td>{note.status}</td>
+                                                    <td>
+                                                        <Link className='link' to={`/note/${note._id}`}>
+                                                            {note.service}
+                                                        </Link>
+                                                    </td>
+                                                    <td>{formatDate(note.appointmentDate)}</td>
+                                                </tr>
+                                            ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="3">No notes available.</td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </Table>
                         </div>
                     </Col>
     
                     {/* Diagnosis */}
-                    <Col sm={4}>
-                        <div className="patient-chart-diagnosis">
-                            <h4>Diagnosis</h4>
-                            <Row>
-                                <Col>ICD-10</Col>
-                                <Col>Diagnosis Description</Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    {displayedDiagnoses && displayedDiagnoses.length > 0 ? (
-                                        <ul>
-                                            {displayedDiagnoses.map((diagnosisObj, index) => (
-                                                <li key={index}>
-                                                    {diagnosisObj.icd10}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    ) : (
-                                        <p>No diagnosis available.</p>
+                    <Col sm={12} lg={4}>
+                        <div className="patient-chart-notes">
+                            <h4 className='patient-chart-diagnosis'> Diagnosis</h4>
+                            <Table striped bordered hover>
+                                <thead>
+                                    <tr>
+                                        <th>ICD-10</th>
+                                        <th>Diagnosis Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {diagnoses && diagnoses.length > 0 ? (
+                                            diagnoses.map((diagnosisObj, index) => (
+                                                <tr key={index}>
+                                                    <td>{diagnosisObj.icd10}</td>
+                                                    <td>{diagnosisObj.diagnosis}</td>
+                                                </tr>
+                                            ))
+                                        ) : (
+                                            <tr>
+                                                <td colSpan="2">No diagnosis available.</td>
+                                            </tr>
                                     )}
-    
-                                    {showInputFields && (
-                                        <div>
-                                            <input
-                                                size={15}
-                                                type="text"
-                                                placeholder="ICD10"
-                                                value={newICD10}
-                                                onChange={(e) => setNewICD10(e.target.value)}
-                                            />
-                                        </div>
-                                    )}
-                                </Col>
-                                <Col>
-                                    {displayedDiagnoses && displayedDiagnoses.length > 0 ? (
-                                        <ul>
-                                            {displayedDiagnoses.map((diagnosisObj, index) => (
-                                                <li key={index}>
-                                                    {diagnosisObj.diagnosis}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    ) : (
-                                        <p>No diagnosis available.</p>
-                                    )}
-    
-                                    {showInputFields && (
-                                        <div>
-                                            <input
-                                                size={15}
-                                                type="text"
-                                                placeholder="Enter Diagnosis"
-                                                value={newDiagnosis}
-                                                onChange={(e) => setNewDiagnosis(e.target.value)}
-                                            />
-                                            <Button
-                                                variant="primary"
-                                                onClick={handleAddDiagnosis}
-                                            >
-                                                {showInputFields ? 'Cancel' : 'ADD DIAGNOSIS'}
-                                            </Button>
-                                        </div>
-                                    )}
-                                </Col>
-                            </Row>
-                            <Button variant="primary" onClick={handleAddDiagnosis}>ADD DIAGNOSIS</Button>
+                                </tbody>
+                            </Table>
+                            {showInputFields && (
+                                <div>
+                                    <input
+                                        size={15}
+                                        type="text"
+                                        placeholder="ICD10"
+                                        value={newICD10}
+                                        onChange={(e) => setNewICD10(e.target.value)}
+                                    />
+                                    <input
+                                        size={15}
+                                        type="text"
+                                        placeholder="Enter Diagnosis"
+                                        value={newDiagnosis}
+                                        onChange={(e) => setNewDiagnosis(e.target.value)}
+                                    />
+                                    <Button
+                                        className='diagnosis-button buttons '
+                                        variant="primary"
+                                        onClick={handleAddNewDiagnosis}
+                                    >
+                                        ADD DIAGNOSIS
+                                    </Button>
+                                    <Button
+                                        className='diagnosis-button buttons'
+                                        variant="secondary"
+                                        onClick={toggleInputFields}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </div>
+                            )}
+                            {!showInputFields && (
+                                <Button className='buttons' variant="primary" onClick={toggleInputFields}>
+                                    ADD DIAGNOSIS
+                                </Button>
+                            )}
                         </div>
                     </Col>
                 </Row>

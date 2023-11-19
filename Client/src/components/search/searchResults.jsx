@@ -21,8 +21,8 @@ const SearchResults = ({ results }) => {
               {results.map((result) => (
                 <tr key={result.patientID}>
                   <td>{`${result.firstName} ${result.lastName}`}</td>
-                  <td>
-                    <Link to={`/patient/${result.patientID}`}>
+                  <td >
+                    <Link className='link' to={`/patient/${result.patientID}`}>
                       {result.patientID}
                     </Link>
                   </td>

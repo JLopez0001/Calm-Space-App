@@ -3,7 +3,7 @@ import SearchPatient from '../../components/search/searchPatient';
 
 const SearchPage = () => {
     return (
-        <div>
+        <div className='form-container'>
             <SearchPatient/>
         </div>
     )

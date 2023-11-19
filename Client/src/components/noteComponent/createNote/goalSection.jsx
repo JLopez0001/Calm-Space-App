@@ -25,33 +25,37 @@ const GoalSection = ({ goals, setGoals, objectives, setObjectives, readOnly }) =
 
     return (
         <div>
-            <Row className="note-section-header">
-                <Container> Goals & Objectives </Container>
+            <Row>
+                <Container className="note-header d-flex justify-content-center"> <h5>Goals & Objectives</h5></Container>
             </Row>
-            <Form>
+            <Form >
                 {goals.map((goal, index) => (
                     <Row key={index}>
-                        <Col>
+                        <Col className="d-flex justify-content-center">
                             <Form.Control required readOnly value={goal} />
                         </Col>
-                        <Col>
+                        <Col className="d-flex justify-content-center">
                             <Form.Control required readOnly value={objectives[index] || ''} />
                         </Col>
                     </Row>
                 ))}
                 <Row>
-                    <Col>
+                    <Col className="d-flex justify-content-center">
                         <Form.Control
+                            style={{ width: '500px' }}
                             required
+                            className="input-placeholder"
                             placeholder="Goal"
                             value={newGoal}
                             onChange={(e) => setNewGoal(e.target.value)}
                             readOnly={readOnly}
                         />
                     </Col>
-                    <Col>
+                    <Col className="d-flex justify-content-center">
                         <Form.Control
+                            style={{ width: '500px' }}
                             required
+                            className="input-placeholder"
                             placeholder="Objective"
                             value={newObjective}
                             onChange={(e) => setNewObjective(e.target.value)}
@@ -61,7 +65,7 @@ const GoalSection = ({ goals, setGoals, objectives, setObjectives, readOnly }) =
                 </Row>
                 <Row xs={6}>
                 {!readOnly && (
-                    <Button type="button" onClick={handleAddNewGoalAndObjective}>
+                    <Button className="buttons goal-button" type="button" onClick={handleAddNewGoalAndObjective}>
                         Add New Input Field
                     </Button>
                 )}

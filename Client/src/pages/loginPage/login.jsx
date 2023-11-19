@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from "react-cookie"
 import axios from 'axios';
-import LoginForm from '../../components/auth/loginForm';
+import { toast } from 'react-hot-toast';
+import LoginForm from '../../components/auth/loginForm'; 
 
 
 const LoginPage = ({onLoginSuccess}) => {
@@ -17,19 +18,17 @@ const LoginPage = ({onLoginSuccess}) => {
 
     const [validated, setValidated] = useState(false);
 
-    const handleValidation = (event) => {
-        const form = event.currentTarget;
-        if (form.checkValidity() === false) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-    
-        setValidated(true);
-      };
-
 
     const onSubmit = async (event) => {
         event.preventDefault();
+
+        const form = event.currentTarget;
+        if (form.checkValidity() === false) {
+            event.stopPropagation();
+            setValidated(true); 
+            return; 
+        }
+
         try {
             const response = await axios.post("http://localhost:3001/auth/login", {   
                     username,
@@ -51,28 +50,27 @@ const LoginPage = ({onLoginSuccess}) => {
                     navigate(destination, { replace: true });
 
                     // console.log(response.data.role)
-                    
-                    alert(response.data.message);
+                    toast.success(`Welcome ${response.data.username}!`);
                 } else {
-                    const errorMessage = response.data.message;
-                    alert(errorMessage);
+                    toast.error(response.data.message || "Login Failed")
                 }
         } catch (err) {
+            toast.error(err.response?.data?.message || "Login failed due to an unexpected error");
             console.error(err)
     }};
 
     return (
-        <div>
+        <div className='image-background form-container'>
             <LoginForm
                 username={username}
                 setUsername={setUsername}
                 password={password}
                 setPassword={setPassword}
                 onSubmit={onSubmit}
-                onValidate={handleValidation}
                 validated={validated}
             />
         </div>
+        
     )
 }
 

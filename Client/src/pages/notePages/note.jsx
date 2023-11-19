@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
+import { toast } from "react-hot-toast";
 import NoteDetails from "../../components/noteComponent/note/noteDetails";
 import RejectionMessageModal from "../../components/noteComponent/rejection/message";
 import RejectionModal from "../../components/noteComponent/rejection/modal";
@@ -41,9 +42,11 @@ const NoteDetailsPage = ({ userRole }) => {
     const handleApprove = async () => {
         try {
             const response = await axios.post(`http://localhost:3001/qa/note/${note._id}/approve`);
+            toast.success(response.data.message);
             console.log(response.data.message);
             navigate('/qa');
         } catch (error) {
+            toast.error(error.response?.data?.message || "Error approving the note");
             console.error("Error approving the note:", error);
         }
     };
@@ -55,29 +58,34 @@ const NoteDetailsPage = ({ userRole }) => {
 
             setShowRejectModal(false);
             setRejectionReason('');
-
+            toast.success(response.data.message);
             navigate('/qa');
         } catch (error) {
+            toast.error(error.response?.data?.message || "Error rejecting the note");
             console.error("Error rejecting the note:", error);
         }
     };
     return (
         <>
-            <div>
+            <div className="note-form-container">
                 <NoteDetails 
                     note={note} 
                     userRole={userRole}
                     toggleRejectionMessageModal={() => setShowRejectionMessageModal(true)}
                 />
+                {userRole === "therapist" && note?.status === 'rejected' && (
+                    <Button className="buttons" onClick={() => navigate(`/edit-note/${note._id}`)}>
+                        Edit Note
+                    </Button>
+                )}
+                {userRole === "qa" && (
+                    <div style={{width : "15%"}} className="d-flex justify-content-around">
+                        <Button  variant="success" onClick={handleApprove}>Approve</Button>
+                        <Button variant="danger" onClick={() => setShowRejectModal(true)}>Reject</Button>
+                    </div>
+                )}
             </div>
             <div>
-                {userRole === "qa" && (
-                    <>
-                        <Button onClick={handleApprove}>Approve</Button>
-                        <Button onClick={() => setShowRejectModal(true)}>Reject</Button>
-                    </>
-                )}
-
                 <RejectionModal 
                     show={showRejectModal} 
                     handleClose={() => setShowRejectModal(false)}
@@ -91,12 +99,6 @@ const NoteDetailsPage = ({ userRole }) => {
                     handleClose={() => setShowRejectionMessageModal(false)}
                     message={note?.rejectionReason}
                 />
-                {userRole === "therapist" && note?.status === 'rejected' && (
-                    <Button onClick={() => navigate(`/edit-note/${note._id}`)}>
-                        Edit Note
-                    </Button>
-                )}
-
             </div>
         </>
     );

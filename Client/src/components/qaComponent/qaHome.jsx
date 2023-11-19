@@ -20,33 +20,53 @@ const QAHomeScreen = ({ userName, notes }) => {
             <div className="greeting-user">
                 <h1>Welcome {userName}</h1>
             </div>
-            <Container>
-                <Row>
-                    <Col>Tasks To Review</Col>
-                </Row>
-                <Row>
-                    <Col>Appointment Date</Col>
-                    <Col>Patient Name</Col>
-                    <Col>From UserID</Col>
-                    <Col>Service</Col>
-                </Row>
-                {notes.map(note => (
-                    <Row key={note._id}>
-                        <Col>{formatDate(note.appointmentDate)}</Col>
-                        <Col>
-                            <Link to={`/patient/${note.patient.patientID}`}>
-                                {note.patient.firstName} {note.patient.lastName}
-                            </Link>
-                        </Col>
-                        <Col>{note.therapist.username}</Col>
-                        <Col>
-                            <Link to={`/note/${note._id}`}>
-                                {note.service}
-                            </Link>
-                        </Col>
-                    </Row>
-                ))}
-            </Container>
+            <div className='table-info table-responsive'>
+                <div className='row'>
+                    <div className='col'>
+                        <table className='table table-striped table-bordered table-hover'>
+
+                            <thead>
+                                <tr>
+                                    <th colSpan="4">Tasks To Review</th>
+                                </tr>
+                                <tr>
+                                    <th>Appointment Date</th>
+                                    <th>Patient Name</th>
+                                    <th>From UserID</th>
+                                    <th>Service</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {notes.length > 0 ? (
+                                
+                                    notes.map(note => (
+                                        <tr key={note._id}>
+                                            <td>{formatDate(note.appointmentDate)}</td>
+                                            <td>
+                                                <Link className='link' to={`/patient/${note.patient.patientID}`}>
+                                                    {note.patient.firstName} {note.patient.lastName}
+                                                </Link>
+                                            </td>
+                                            <td>{note.therapist.username}</td>
+                                            <td>
+                                                <Link className='link' to={`/note/${note._id}`}>
+                                                    {note.service}
+                                                </Link>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="4">No notes to review</td>
+                                    </tr>
+                                )}
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

@@ -25,12 +25,12 @@ router.post('/register', async (req, res) => {
     //Check to see if unique username is taken
     const existingUser = await User.findOne({username});
     if (existingUser) {
-      return res.status(400).json({ message: "Username already exists" });
+      return res.status(400).json({ error: "Username already exists" });
     };
 
     //Check to see if password is longer than 6 characters
     if(password.length < 6){
-      return res.status(400).json({message: "Password must be at least 6 characters long"});
+      return res.status(400).json({ error: "Password must be at least 6 characters long"});
     };
 
     // Password Encryption.
@@ -61,7 +61,7 @@ router.post('/register', async (req, res) => {
       });
 
     } else {
-      return res.status(400).json({ message: "Invalid role" });
+      return res.status(400).json({ error: "Invalid role" });
     };
  
     await newUser.save();
@@ -69,7 +69,7 @@ router.post('/register', async (req, res) => {
     res.json({ message: "User Registered Successfully!" });
   } catch (err) {
     console.error(err); // Log the actual error
-    res.status(500).json({ err: "Registration failed", error: err.message });
+    res.status(500).json({ error: "Registration failed", error: err.message });
   }
 });
 

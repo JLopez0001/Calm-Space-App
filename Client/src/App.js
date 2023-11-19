@@ -12,6 +12,9 @@ import SearchPage from './pages/searchPatientPage/search';
 import CreateNotePage from './pages/notePages/createNote';
 import NoteDetailsPage from './pages/notePages/note';
 import EditNotePage from './pages/notePages/editNote';
+import Footer from './components/footer';
+import toast, { Toaster } from 'react-hot-toast';
+
 
 function App() {
 
@@ -37,23 +40,25 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
         <Router>
-        <NavFeature userRole={window.localStorage.getItem("userRole")} loggedIn={loggedIn} handleLogout={handleLogout} />
-          <Routes>
-            <Route path='/' element={<TherapistHomePage/>} />
-            <Route path='/qa' element={<QAHomePage/>} />
-            <Route path='/login' element={<LoginPage onLoginSuccess={handleLoginSuccess} />} />
-            <Route path='/register' element={<RegisterPage />} />
-            <Route path='/create-patient' element={<CreatePatientPage/>} />
-            <Route path='/patient/:patientID' element={<PatientPage />} />
-            <Route path='/search-patient' element={<SearchPage/>} />
-            <Route path='/create-note' element={<CreateNotePage />} />
-            <Route path='/note/:noteID' element={<NoteDetailsPage userRole={userRole} />} />
-            <Route path='/edit-note/:noteID' element={<EditNotePage />} />
-          </Routes>
-          </Router>
-      </header>
+          <NavFeature userRole={window.localStorage.getItem("userRole")} loggedIn={loggedIn} handleLogout={handleLogout} />
+            <Toaster position='top-right' toastOptions={{duration:4000}} />
+            <main>
+              <Routes>
+                <Route path='/' element={<TherapistHomePage/>} />
+                <Route path='/qa' element={<QAHomePage/>} />
+                <Route path='/login' element={<LoginPage onLoginSuccess={handleLoginSuccess} />} />
+                <Route path='/register' element={<RegisterPage />} />
+                <Route path='/create-patient' element={<CreatePatientPage/>} />
+                <Route path='/patient/:patientID' element={<PatientPage />} />
+                <Route path='/search-patient' element={<SearchPage/>} />
+                <Route path='/create-note' element={<CreateNotePage />} />
+                <Route path='/note/:noteID' element={<NoteDetailsPage userRole={userRole} />} />
+                <Route path='/edit-note/:noteID' element={<EditNotePage />} />
+              </Routes>
+            </main>
+          <Footer />
+        </Router>
     </div>
   );
 }

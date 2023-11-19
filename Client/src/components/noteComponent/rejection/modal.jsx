@@ -6,10 +6,11 @@ const RejectionModal = ({ show, handleClose, rejectionReason, handleReject, setR
     return (
         <Modal centered show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-                <Modal.Title>Reject Note</Modal.Title>
+                <Modal.Title style={{color : '#03071e'}}>Reject Note</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <textarea
+                    className='input-placeholder'
                     value={rejectionReason}
                     onChange={e => setRejectionReason(e.target.value)}
                     placeholder="Enter rejection reason..."

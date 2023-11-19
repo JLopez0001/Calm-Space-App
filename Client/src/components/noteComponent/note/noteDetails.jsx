@@ -19,8 +19,8 @@ const NoteDetails = ({ note , userRole, toggleRejectionMessageModal}) => {
     if (!note) return <p>Loading note details...</p>;
     console.log(note.status)
      return (
-        <div>
-            <div>
+        <div className="note-form-container">
+            <div className='create-note-form note-form-panel'>
                 <HeaderSection
                     service={note.service}
                     appointmentDate={formatDate(note.appointmentDate)}

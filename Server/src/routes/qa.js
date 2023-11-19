@@ -54,7 +54,7 @@ router.post("/note/:noteID/approve", async (req, res) => {
         qa.reviewedNotes.push(note._id);
         await qa.save();
         
-        res.json({ message: 'Note approved successfully!' });
+        res.json({ message: 'Note Approved!' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -82,7 +82,7 @@ router.post("/note/:noteID/reject", async (req, res) => {
         qa.reviewedNotes.push(note._id);
         await qa.save();
         
-        res.json({ message: 'Note rejected successfully!' });
+        res.json({ message: 'Note Rejected!' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

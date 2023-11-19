@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {toast} from 'react-hot-toast'; //
 import PatientForm from '../../components/patientComponent/createPatient/patientForm';
 import axios from 'axios';
 
@@ -39,23 +40,22 @@ const CreatePatientPage = () => {
                 therapistProviderCode: providerCode,
             })
             if (response.data.message === "Patient created and assigned to therapist successfully!") {
-                alert(response.data.message);
-                console.log("Before navigation");
+                toast.success(`Nice Job! ${firstName} ${lastName} Is Your New Patient!`);
                 navigate("/");
-                console.log("After navigation");
             } else  {
                 const errorMessage = response.data.message;
-                alert(errorMessage);
+                toast.error(errorMessage);
             }
         } catch (error) {
+            toast.error(error.response?.data?.message || "Patient creation failed due to an unexpected error");
             console.error(error)
-        }
-    }
+        };
+    };
 
 
 
     return (
-        <div>
+        <div className='form-container'>
             <PatientForm
                 firstName={firstName}
                 setFirstName={setFirstName}

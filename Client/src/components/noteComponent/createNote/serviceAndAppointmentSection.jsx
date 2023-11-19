@@ -25,43 +25,48 @@ const HeaderSection = ({service, setService, appointmentDate, setAppointmentDate
 
     return (
         <div>
-            <Row className="note-section-header">
-                <Col sm={10}>
-                    <Container> Billing Information </Container>
-                </Col>
-                <Col sm={2}>
-                    {(userRole === 'qa' || note?.status === 'rejected') && 
+            <div className="progress-note-title">
+                <h3>Progress Note</h3>
+            </div>
+
+            <Row>
+                {(userRole === 'qa' || note?.status === 'rejected') && (
+                    <Col sm={2}>
                         <AnnouncementIcon 
                             sx={{ fontSize: 40, color: red[500]}} 
                             onClick={showRejectionMessageModal}
                         />
-                    }
-                </Col>
+                    </Col>
+                )}
             </Row>
             <Form>
                 <Row>
-                    <Form.Group as={Col} md="5" controlId="formGroupFirstName">
-                        <Form.Label>Service</Form.Label>
-                        <Form.Select disabled={disabled} required value={service} onChange={(e) => setService(e.target.value)}>
-                            <option value="">Please Select Service</option>
-                            <option value="Individual Psychotherapy 30 min">Individual Psychotherapy 30 min</option>
-                            <option value="Tele-Audio Individual Psychotherapy 30 min">Tele-Audio Individual Psychotherapy 30 min</option>
-                            <option value="Tele-Video Individual Psychotherapy 30 min">Tele-Video Individual Psychotherapy 30 min</option>
-                        </Form.Select>
-                    </Form.Group>
-
-                    <Form.Group as={Col} md="3" controlId="formGroupFirstName">
-                        <Form.Label>Appointment Date</Form.Label>
-                            <Form.Control 
-                                required
-                                type="date" 
-                                min="2015-01-01"
-                                max="2024-12-31"
-                                value={formatDate(appointmentDate)}
-                                onChange={handleAppointmentChange} 
-                                readOnly={readOnly}
-                            />
-                    </Form.Group>
+                    <Col>
+                        <Form.Group controlId="formGroupFirstName">
+                            <Form.Label>Service</Form.Label>
+                            <Form.Select className="input-placeholder" disabled={disabled} required value={service} onChange={(e) => setService(e.target.value)}>
+                                <option value="">Please Select Service</option>
+                                <option value="Individual Psychotherapy 30 min">Individual Psychotherapy 30 min</option>
+                                <option value="Tele-Audio Individual Psychotherapy 30 min">Tele-Audio Individual Psychotherapy 30 min</option>
+                                <option value="Tele-Video Individual Psychotherapy 30 min">Tele-Video Individual Psychotherapy 30 min</option>
+                            </Form.Select>
+                        </Form.Group>
+                    </Col>
+                    <Col>
+                        <Form.Group controlId="formGroupFirstName">
+                            <Form.Label>Appointment Date</Form.Label>
+                                <Form.Control
+                                    className="input-placeholder"
+                                    required
+                                    type="date" 
+                                    min="2015-01-01"
+                                    max="2024-12-31"
+                                    value={formatDate(appointmentDate)}
+                                    onChange={handleAppointmentChange} 
+                                    readOnly={readOnly}
+                                />
+                        </Form.Group>
+                    </Col>
                 </Row>
             </Form>
         </div>

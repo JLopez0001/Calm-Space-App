@@ -3,12 +3,12 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 
 
-const RegisterForm = ({email, setEmail, username, setUsername, password, setPassword, role, setRole, onSubmit, onValidate,validated}) =>{
+const RegisterForm = ({email, setEmail, username, setUsername, password, setPassword, role, setRole, onSubmit,validated}) =>{
 
   return (
-    <div className='auth-panel'>
+    <div className='form-panel auth-panel'>
 
-      <Form noValidate validated={validated} onValidate={onValidate} onSubmit={onSubmit}>
+      <Form noValidate validated={validated} onSubmit={onSubmit}>
         <div className='auth-panel-header'>
           <h1>Register</h1>
         </div>
@@ -16,6 +16,7 @@ const RegisterForm = ({email, setEmail, username, setUsername, password, setPass
           <Form.Label>Email address</Form.Label>
             <InputGroup hasValidation>
               <Form.Control 
+                className='input-placeholder' 
                 required
                 type="email" 
                 placeholder="Enter email"
@@ -32,6 +33,7 @@ const RegisterForm = ({email, setEmail, username, setUsername, password, setPass
           <Form.Label>Username</Form.Label>
             <InputGroup hasValidation>
               <Form.Control
+                className='input-placeholder'
                 required
                 type="username" 
                 placeholder="Enter username"
@@ -48,6 +50,7 @@ const RegisterForm = ({email, setEmail, username, setUsername, password, setPass
           <Form.Label>Password</Form.Label>
             <InputGroup hasValidation>
               <Form.Control 
+                className='input-placeholder' 
                 required
                 type="password" 
                 placeholder="Password" 
@@ -91,7 +94,7 @@ const RegisterForm = ({email, setEmail, username, setUsername, password, setPass
               </div>
           ))}
         </Form.Group>
-        <Button className='buttons' type="submit">Submit</Button>
+        <Button className='buttons auth-button' type="submit">Submit</Button>
       </Form>
 
     </div>

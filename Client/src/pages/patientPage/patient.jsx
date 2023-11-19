@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { toast } from "react-hot-toast";
 import axios from 'axios';
 import PatientChart from "../../components/patientComponent/patientChart/patientsChart";
 
@@ -20,19 +21,17 @@ const PatientPage = () => {
                 icd10: newICD10,
             });
 
-            console.log("Response:", response); // Debugging log
-    
             if (response.status === 200) {
-                // Update patientData with the new diagnosis (response.data may contain updated data)
                 setPatientData((prevData) => ({
                     ...prevData,
                     diagnoses: [...prevData.diagnoses, { diagnosis: newDiagnosis, icd10: newICD10 }],
                 }));
+                toast.success('Diagnosis Added Successfully!');
             } else {
-                console.error('Failed to add diagnosis:', response.data);
+                toast.error('Failed To Add Diagnosis');
             }
         } catch (error) {
-            console.error('Error adding diagnosis:', error);
+            toast.error(error.response?.data?.message || 'Failed To Add Diagnosis');
         }
     };
 
@@ -40,14 +39,12 @@ const PatientPage = () => {
         axios.get(`http://localhost:3001/patients/patient/${patientID}`)
             .then((response) => {
                 if (response.status === 200) {
-                    console.log("Received patient data:", response.data); // Debugging log
-                    // Ensure that diagnoses is an array, or convert it to an array if it's not
                     const updatedPatientData = {
                         ...response.data.patient,
                         diagnoses: Array.isArray(response.data.patient.diagnoses) ? response.data.patient.diagnoses : [],
                     };
                     setPatientData(updatedPatientData);
-                    setNotes(response.data.notes); // Set the notes state
+                    setNotes(response.data.notes);
                 } else {
                     console.error('Invalid patient data:', response.data);
                 }
@@ -56,9 +53,6 @@ const PatientPage = () => {
                 console.error('Error fetching patient data:', error);
             });
     }, [patientID]);
-    
-
-    console.log("Rendering PatientPage with patientData:", patientData); // Debugging log
 
     return (
         <div>

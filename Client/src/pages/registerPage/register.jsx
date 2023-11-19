@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { toast } from 'react-hot-toast';
 import RegisterForm from '../../components/auth/registerForm';
 
 const RegisterPage = () => {
@@ -14,18 +15,16 @@ const RegisterPage = () => {
 
     const [validated, setValidated] = useState(false);
 
-    const handleValidation = (event) => {
-      const form = event.currentTarget;
-      if (form.checkValidity() === false) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
-  
-      setValidated(true);
-    };
-
     const onSubmit = async (event) => {   
         event.preventDefault();
+
+        const form = event.currentTarget;
+        if (form.checkValidity() === false) {
+            event.stopPropagation();
+            setValidated(true); 
+            return; 
+        }
+
         try {
             const response = await axios.post("http://localhost:3001/auth/register", {
                 username,
@@ -33,21 +32,22 @@ const RegisterPage = () => {
                 password,
                 role,
             })
+
             if (response.data.message === "User Registered Successfully!") {
-                alert(`Registration Completed. Welcome ${username}! Please Login`);
+                toast.success(`Registration Completed. Welcome ${username}! Please Login`);
                 navigate("/login");
             } else {
-                // Handle registration error, if any
-                const errorMessage = response.data.message;
-                alert(errorMessage);
+                toast.error(response.data.error || "Registration failed");
             }
+
         } catch (err) {
+            toast.error(err.response?.data?.error || "Registration failed due to an unexpected error");
             console.error(err);
         }
     };
   
     return (
-        <div>
+        <div className='image-background form-container'>
             <RegisterForm
                 username={username}
                 setUsername={setUsername}
@@ -58,7 +58,6 @@ const RegisterPage = () => {
                 role={role}
                 setRole={setRole}
                 onSubmit={onSubmit}
-                onValidate={handleValidation}
                 validated={validated}
             />
         </div>

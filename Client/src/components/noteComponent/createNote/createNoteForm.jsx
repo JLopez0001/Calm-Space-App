@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { toast } from 'react-hot-toast';
 import Form from 'react-bootstrap/Form';
 import HeaderSection from './serviceAndAppointmentSection';
 import GoalSection from './goalSection';
@@ -10,6 +11,9 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+
+// TODO: Have function to handle if you want to press the enter key to submit the form
+//TODO: If the therapist is editing the note they have to have the correct provider ID
 
 const NoteForm = ({ note = {}, isEditMode = false }) => {
     
@@ -64,7 +68,7 @@ const NoteForm = ({ note = {}, isEditMode = false }) => {
         status: status,
     };
 
-    console.log(noteData);
+    // console.log(noteData);
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -90,89 +94,101 @@ const NoteForm = ({ note = {}, isEditMode = false }) => {
                 console.log('PUT endpoint:', `/qa/note/${note._id}/edit`);
                 console.log('Data being sent:', updatedNoteData);
                 await axios.put(`http://localhost:3001/qa/note/${note._id}/edit`, updatedNoteData);
+                toast.success('Note Resubmited Successfully!');
+                navigate(`/patient/${patientID}`);
             } else {
-                // Create a new note
-                await axios.post('http://localhost:3001/patients/create-note', updatedNoteData);
+                const response = await axios.post('http://localhost:3001/patients/create-note', updatedNoteData);
+                if (response.status === 200) {
+                    toast.success('Note Created Successfully!');
+                    navigate(`/patient/${patientID}`);
+                }
             }
-            navigate(`/patient/${patientID}`);
-        } catch (err) {
-            console.error('Error:', err.message);
-            console.error('Error updating note:', err.response.data);
-
-        }
+            } catch (err) {
+                console.error('Error:', err.message);
+                // Handle specific error messages based on the response from the server
+                const errorMessage = err.response?.data?.message || 'Error creating note';
+                if (errorMessage.includes('not found')) {
+                    toast.error(errorMessage);
+                } else {
+                    toast.error('Error creating note');
+                }
+            }
     };
     
 
     return (
         <>
-        <div className="">
-            <Form noValidate validated={validated} onSubmit={onSubmit}>
-            <HeaderSection
-                service={service}
-                setService={setService}
-                appointmentDate={appointmentDate}
-                setAppointmentDate={setAppointmentDate}
-                readOnly={false}
-                status={status}
-                showRejectionMessageModal={handleShowRejectionMessageModal}
-                
-            />
-            <RejectionMessageModal 
-                show={showRejectionMessageModal} 
-                handleClose={handleCloseRejectionMessageModal}
-                message={rejectionMessage}
-            />
-            <GoalSection
-                goals={goals}
-                setGoals={setGoals}
-                objectives={objectives}
-                setObjectives={setObjectives}
-                readOnly={false}
-            />
-            <ContentSection
-                riskAssessment={riskAssessment}
-                setRiskAssessment={setRiskAssessment}
-                qaProviderCode={qaProviderCode}
-                setQAProviderCode={setQAProviderCode}
-                patientID={patientID}
-                setPatientID={setPatientID}
-                content={content}
-                setContent={setContent}
-                readOnly={false}
-            />
-            <Button type="submit">Submit Note</Button>
-            </Form>
-        </div>
-        <div>
-            <Modal centered show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
-                <Modal.Title>Provider Signature</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <Form>
-                <Form.Group as={Row}>
-                    <Col>
-                    <Form.Label>Please Enter Code:</Form.Label>
-                    </Col>
-                    <Col>
-                    <Form.Control
-                        type="text"
-                        value={modalProviderCode}
-                        onChange={(e) => setModalProviderCode(e.target.value)}
-                    />
-                    </Col>
-                </Form.Group>
+        <div className="note-form-container">
+            <div className='create-note-form note-form-panel'>
+                <Form noValidate validated={validated} onSubmit={onSubmit}>
+                <HeaderSection
+                    service={service}
+                    setService={setService}
+                    appointmentDate={appointmentDate}
+                    setAppointmentDate={setAppointmentDate}
+                    readOnly={false}
+                    status={status}
+                    showRejectionMessageModal={handleShowRejectionMessageModal}
+                    
+                />
+                <RejectionMessageModal 
+                    show={showRejectionMessageModal} 
+                    handleClose={handleCloseRejectionMessageModal}
+                    message={rejectionMessage}
+                />
+                <GoalSection
+                    goals={goals}
+                    setGoals={setGoals}
+                    objectives={objectives}
+                    setObjectives={setObjectives}
+                    readOnly={false}
+                />
+                <ContentSection
+                    riskAssessment={riskAssessment}
+                    setRiskAssessment={setRiskAssessment}
+                    qaProviderCode={qaProviderCode}
+                    setQAProviderCode={setQAProviderCode}
+                    patientID={patientID}
+                    setPatientID={setPatientID}
+                    content={content}
+                    setContent={setContent}
+                    readOnly={false}
+                />
+                <Button className='buttons' type="submit">Submit Note</Button>
                 </Form>
-                <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                    Close
-                </Button>
-                <Button onClick={handleModalSubmit} type="submit">
-                    Submit
-                </Button>
-                </Modal.Footer>
-            </Modal.Body>
-            </Modal>
+            </div>
+            <div>
+                <Modal centered show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title style={{color : '#03071e'}}>Provider Signature</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                    <Form.Group style={{color : '#03071e'}} as={Row}>
+                        <Col>
+                        <Form.Label>Please Enter Code:</Form.Label>
+                        </Col>
+                        <Col>
+                        <Form.Control
+                            className='input-placeholder'
+                            type="text"
+                            value={modalProviderCode}
+                            onChange={(e) => setModalProviderCode(e.target.value)}
+                        />
+                        </Col>
+                    </Form.Group>
+                    </Form>
+                    <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button className="buttons" onClick={handleModalSubmit} type="submit">
+                        Submit
+                    </Button>
+                    </Modal.Footer>
+                </Modal.Body>
+                </Modal>
+            </div>
         </div>
         </>
     );
