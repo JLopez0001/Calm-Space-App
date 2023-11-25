@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
+import AnnouncementIcon from '@mui/icons-material/Announcement';
 import { useParams } from "react-router-dom";
-import { toast } from "react-hot-toast";
 import NoteForm from "../../components/noteComponent/createNote/createNoteForm";
 import RejectionMessageModal from "../../components/noteComponent/rejection/message";
+import { red } from '@mui/material/colors';
 
 const EditNotePage = () => { 
-    const navigate = useNavigate();
+    
     const { noteID } = useParams(); 
     const [note, setNote] = useState(null);
 
@@ -21,6 +21,11 @@ const EditNotePage = () => {
                 const response = await axios.get(`http://localhost:3001/qa/note/${noteID}`);
                 setNote(response.data);
                 console.log("Fetched note:", response.data);
+
+                // Show rejection message modal if note is rejected
+                if (response.data.status === 'rejected') {
+                    setShowRejectionModal(true);
+                }
             } catch (error) {
                 console.error("Error fetching note details:", error);
             }
@@ -28,17 +33,28 @@ const EditNotePage = () => {
 
         fetchNoteDetails();
     }, [noteID]);
+    
 
     // console.log("Full note object:", note);
 
-    if (!note) return toast.loading("Loading Note") || <p>Loading note details...</p>;
+    if (!note) return <p>Loading note details...</p>;
 
     return (
         <>
+            {note && note.status === 'rejected' && (
+                <div className="rejection-info-icon">
+                    <h3 className="reject-reason">This Note Has Been Rejected</h3>
+                    <AnnouncementIcon 
+                            sx={{fontSize: 55, color: red[500]}} 
+                            onClick={handleShowRejectionMessageModal}
+                        />
+                </div>
+            )}
+        
             <NoteForm 
                 note={note} 
                 isEditMode={true} 
-                toggleRejectionMessageModal={handleShowRejectionMessageModal}
+                showRejectionMessageModal={handleShowRejectionMessageModal}
             />
 
             <RejectionMessageModal 

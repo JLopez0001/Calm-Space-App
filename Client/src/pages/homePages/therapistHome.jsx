@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import PatientCard from '../../components/patientComponent/createPatient/patientCard';
 import { useGetUserID } from '../../hooks/getUserID';
@@ -9,30 +10,31 @@ import Button from 'react-bootstrap/Button';
 
 const TherapistHomePage = () => {
     
+    const [cookies, _] = useCookies(["access_token"])
     const loggedInUsername = window.localStorage.getItem("username");
 
     const [patients, setPatients] = useState([]);
-
     const userID = useGetUserID();
 
     useEffect(() => {
-
-        const therapistID = userID;
-
-        // Fetch patients assigned to the therapist from the backend.
-        axios.get(`http://localhost:3001/patients/patients/${therapistID}`)
-        .then((response) => {
-            if (Array.isArray(response.data)) {
-                setPatients(response.data);
-            } else {
-                console.error('Invalid patient data:', response.data);
+        const fetchPatients = async () => {
+            try {
+                const response = await axios.get(`http://localhost:3001/patients/patients/${userID}`,
+                { headers: { access_token: cookies.access_token } });
+                if (Array.isArray(response.data)) {
+                    setPatients(response.data);
+                } else {
+                    console.error('Invalid patient data:', response.data);
+                }
+            } catch (error) {
+                console.error('Error fetching patient data:', error);
             }
-        })
-        .catch((error) => {
-            console.error('Error fetching patient data:', error);
-        });
-    }, [userID]);
+        };
 
+        if (userID) {
+            fetchPatients();
+        }
+    }, [userID]);
 
     return (
 

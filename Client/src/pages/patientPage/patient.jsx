@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useCookies } from "react-cookie";
 import { toast } from "react-hot-toast";
 import axios from 'axios';
 import PatientChart from "../../components/patientComponent/patientChart/patientsChart";
 
 const PatientPage = () => {
+
+    const [cookies, _] = useCookies(["access_token"])
     const { patientID } = useParams();
     const [patientData, setPatientData] = useState({
         firstName: "",
@@ -19,7 +22,7 @@ const PatientPage = () => {
             const response = await axios.post(`http://localhost:3001/patients/patient/add-diagnosis/${patientID}`, {
                 diagnosis: newDiagnosis,
                 icd10: newICD10,
-            });
+            }, { headers: { access_token: cookies.access_token } });
 
             if (response.status === 200) {
                 setPatientData((prevData) => ({
@@ -36,8 +39,10 @@ const PatientPage = () => {
     };
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/patients/patient/${patientID}`)
-            .then((response) => {
+        const fetchPatientData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:3001/patients/patient/${patientID}`,
+                { headers: { access_token: cookies.access_token } });
                 if (response.status === 200) {
                     const updatedPatientData = {
                         ...response.data.patient,
@@ -48,10 +53,15 @@ const PatientPage = () => {
                 } else {
                     console.error('Invalid patient data:', response.data);
                 }
-            })
-            .catch((error) => {
+            } catch (error) {
                 console.error('Error fetching patient data:', error);
-            });
+                toast.error(error.response?.data?.message || 'Error fetching patient data');
+            }
+        };
+
+        if (patientID) {
+            fetchPatientData();
+        }
     }, [patientID]);
 
     return (

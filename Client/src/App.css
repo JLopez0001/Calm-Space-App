@@ -26,11 +26,30 @@ body {
   background-color: #e67300;
 }
 
+.note-action-buttons-container {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  margin-top: 20px; 
+}
+
+.note-action-buttons {
+  margin: 0 10px;
+}
+
 .icons {
   margin: 0 20px;
   color: #E1E2E2;
 }
 
+.rejection-info-icon {
+  margin-top: 30px;
+}
+
+.reject-reason{
+  font-weight: bold;
+  color: #03071e;
+}
 
 /* FORMS */
 
@@ -63,7 +82,6 @@ body {
 
 
 .note-form-panel {
-  width: 800px;
   margin: auto; 
   padding: 20px;
   color: #03071e;
@@ -74,7 +92,7 @@ body {
 }
 
 .create-note-form {
-  width: 70%;
+  width: 90%;
   margin: 50px;
 }
 
@@ -106,6 +124,7 @@ body {
   line-height: 1.5; 
 }
 
+
 /* FOOTER */
 
 .footer {
@@ -123,6 +142,11 @@ body {
 .contact-footer {
   padding-bottom: 20px;
 }
+
+.footer-section {
+  padding: 10px;
+}
+
 /* HOME PAGE */
 
 .greeting-user {
@@ -147,6 +171,11 @@ body {
   box-shadow: 0 0 30px #3699db;
 }
 
+.patient-card-col {
+  margin-top: 50px;
+  margin-left: 0px;
+}
+
 .patient-chart-link {
   color: #FB8122;
   font-size: 20px;
@@ -164,6 +193,10 @@ body {
 .create-patient-row  {
   padding: 15px;
 } 
+
+.create-patient {
+  margin: 20px;
+}
 
 
 /* SEARCH PAGE */
@@ -186,6 +219,7 @@ body {
 
 .input-placeholder {
   border: 1.2px solid;
+  margin: 10px
 }
 
 .search-placeholder::placeholder {
@@ -310,6 +344,11 @@ body {
   justify-content: space-between;
   align-items: center; 
 }
+
+.qa-users-table {
+  margin: 20px;
+  width: 90%;
+} 
 
 /*  QA HOME */
 

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {toast} from 'react-hot-toast'; //
+import {toast} from 'react-hot-toast'; 
+import { useCookies } from "react-cookie"
 import PatientForm from '../../components/patientComponent/createPatient/patientForm';
 import axios from 'axios';
 
@@ -8,6 +9,7 @@ const CreatePatientPage = () => {
 
     const [validated, setValidated] = useState(false);
     const navigate = useNavigate();
+    const [cookies, _] = useCookies(["access_token"])
 
     
     const [firstName, setFirstName] = useState('');
@@ -38,7 +40,7 @@ const CreatePatientPage = () => {
                 phoneNumber,
                 address,
                 therapistProviderCode: providerCode,
-            })
+            },{ headers: { access_token: cookies.access_token }});
             if (response.data.message === "Patient created and assigned to therapist successfully!") {
                 toast.success(`Nice Job! ${firstName} ${lastName} Is Your New Patient!`);
                 navigate("/");
@@ -55,7 +57,7 @@ const CreatePatientPage = () => {
 
 
     return (
-        <div className='form-container'>
+        <div className='form-container create-patient'>
             <PatientForm
                 firstName={firstName}
                 setFirstName={setFirstName}

@@ -32,18 +32,17 @@ const GoalSection = ({ goals, setGoals, objectives, setObjectives, readOnly }) =
                 {goals.map((goal, index) => (
                     <Row key={index}>
                         <Col className="d-flex justify-content-center">
-                            <Form.Control required readOnly value={goal} />
+                            <Form.Control readOnly value={goal} />
                         </Col>
                         <Col className="d-flex justify-content-center">
-                            <Form.Control required readOnly value={objectives[index] || ''} />
+                            <Form.Control readOnly value={objectives[index] || ''} />
                         </Col>
                     </Row>
                 ))}
                 <Row>
                     <Col className="d-flex justify-content-center">
                         <Form.Control
-                            style={{ width: '500px' }}
-                            required
+                            style={{ width: '400px' }}
                             className="input-placeholder"
                             placeholder="Goal"
                             value={newGoal}
@@ -53,8 +52,7 @@ const GoalSection = ({ goals, setGoals, objectives, setObjectives, readOnly }) =
                     </Col>
                     <Col className="d-flex justify-content-center">
                         <Form.Control
-                            style={{ width: '500px' }}
-                            required
+                            style={{ width: '400px' }}
                             className="input-placeholder"
                             placeholder="Objective"
                             value={newObjective}
@@ -66,7 +64,7 @@ const GoalSection = ({ goals, setGoals, objectives, setObjectives, readOnly }) =
                 <Row xs={6}>
                 {!readOnly && (
                     <Button className="buttons goal-button" type="button" onClick={handleAddNewGoalAndObjective}>
-                        Add New Input Field
+                        Add Goal & Objective To Note
                     </Button>
                 )}
                 </Row>

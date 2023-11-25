@@ -11,13 +11,11 @@ const formatDate = (dateString) => {
     const mm = String(dateObj.getUTCMonth() + 1).padStart(2, '0'); // January is 0!
     const dd = String(dateObj.getUTCDate()).padStart(2, '0');
     return `${yyyy}-${mm}-${dd}`;
-};
+};  
 
-
-const NoteDetails = ({ note , userRole, toggleRejectionMessageModal}) => {
+const NoteDetails = ({ note , userRole, toggleRejectionMessageModal, children}) => {
 
     if (!note) return <p>Loading note details...</p>;
-    console.log(note.status)
      return (
         <div className="note-form-container">
             <div className='create-note-form note-form-panel'>
@@ -28,8 +26,7 @@ const NoteDetails = ({ note , userRole, toggleRejectionMessageModal}) => {
                     disabled={true}
                     userRole={userRole}  
                     note={note}
-                    showRejectionMessageModal={toggleRejectionMessageModal}
-                />
+                    showRejectionMessageModal={toggleRejectionMessageModal}                />
 
                 <GoalSection 
                     goals={note.goals.map(g => g.goal)}
@@ -44,6 +41,9 @@ const NoteDetails = ({ note , userRole, toggleRejectionMessageModal}) => {
                     readOnly={true}
                     disabled={true}
                 />
+
+                {children}
+
             </div>
             
         </div>

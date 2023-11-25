@@ -14,23 +14,24 @@ const NavFeature = ({ userRole, loggedIn, handleLogout }) => {
                 <Navbar.Brand as={NavLink} to={homeLink}>
                     <h2 className="company-name">CALM SPACE</h2>
                 </Navbar.Brand>
-                <Nav className="justify-content-end">
-                    <Row>
+                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                <Navbar.Collapse id="responsive-navbar-nav">
+                    <Nav className="ms-auto">
                         {!loggedIn && (
                             <>
-                                <Col md="auto"><NavLink to="/login" className="nav-link">Login</NavLink></Col>
-                                <Col md="auto"><NavLink to="/register" className="nav-link">Register</NavLink></Col>
+                                <Nav.Link as={NavLink} to="/login" className="nav-link">Login</Nav.Link>
+                                <Nav.Link as={NavLink} to="/register" className="nav-link">Register</Nav.Link>
                             </>
                         )}
                         {loggedIn && (
                             <>
-                                <Col><NavLink to={homeLink} className="nav-link" activeClassName="active">Home</NavLink></Col>
-                                <Col md="auto"><NavLink to="/search-patient" className="nav-link" activeClassName="active">Search Patient</NavLink></Col>
-                                <Col md="auto"><Nav.Link onClick={handleLogout} className="nav-link">Logout</Nav.Link></Col>
+                                <Nav.Link as={NavLink} to={homeLink} className="nav-link" activeClassName="active">Home</Nav.Link>
+                                <Nav.Link as={NavLink} to="/search-patient" className="nav-link" activeClassName="active">Search Patient</Nav.Link>
+                                <Nav.Link onClick={handleLogout} className="nav-link">Logout</Nav.Link>
                             </>
                         )}
-                    </Row>
-                </Nav>
+                    </Nav>
+                </Navbar.Collapse>
             </Container>
         </Navbar>
     );

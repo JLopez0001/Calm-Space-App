@@ -3,7 +3,7 @@ import { Patient } from "../models/Patients.js";
 import { Therapist } from "../models/Therapist.js";
 import { Note } from "../models/Notes.js";
 import { QA } from "../models/QA.js";
-import { User } from "../models/Users.js";
+import { verifyToken } from "./users.js";
 
 
 const router = express.Router();
@@ -17,7 +17,7 @@ const generatePatientID = async () => {
 };
 
 
-router.post("/create-patient", async (req,res) =>{
+router.post("/create-patient", verifyToken, async (req,res) =>{
     try {
         
         const { firstName, lastName, phoneNumber, address, therapistProviderCode } = req.body;
@@ -54,7 +54,7 @@ router.post("/create-patient", async (req,res) =>{
     }
 });
 
-router.post("/create-note", async (req, res) => {
+router.post("/patient/:patientID/create-note", verifyToken, async (req, res) => {
     try {
 
         //goal/objective populated
@@ -127,7 +127,7 @@ router.get("/patients/:therapistID", async (req, res) => {
 });
 
 // Get a patient by patient ID
-router.get("/patient/:patientID", async (req, res) => {
+router.get("/patient/:patientID", verifyToken, async (req, res) => {
     try {
         const patient = await Patient.findOne({ patientID: req.params.patientID });
         const notes = await Note.find({ patient: patient._id });
@@ -137,7 +137,7 @@ router.get("/patient/:patientID", async (req, res) => {
     }
 });
 
-router.post("/patient/add-diagnosis/:patientID", async (req, res) => {
+router.post("/patient/add-diagnosis/:patientID", verifyToken, async (req, res) => {
     try {
         const { diagnosis, icd10 } = req.body;
         const patient = await Patient.findOneAndUpdate(
@@ -158,7 +158,7 @@ router.post("/patient/add-diagnosis/:patientID", async (req, res) => {
     }
 });
 
-// Get a patient by patient ID or patient name and return patient name and patient ID
+// Get a patient by patient ID or name and return name and patient ID
 router.get("/search-patient/:searchOption/:query", async (req, res) => {
     try {
         const { searchOption, query } = req.params;

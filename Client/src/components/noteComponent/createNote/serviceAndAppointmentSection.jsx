@@ -1,7 +1,6 @@
 import React from "react";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import AnnouncementIcon from '@mui/icons-material/Announcement';
 import { red } from '@mui/material/colors';
@@ -33,7 +32,7 @@ const HeaderSection = ({service, setService, appointmentDate, setAppointmentDate
                 {(userRole === 'qa' || note?.status === 'rejected') && (
                     <Col sm={2}>
                         <AnnouncementIcon 
-                            sx={{ fontSize: 40, color: red[500]}} 
+                            sx={{ fontSize: 40, color: red[500] }} 
                             onClick={showRejectionMessageModal}
                         />
                     </Col>

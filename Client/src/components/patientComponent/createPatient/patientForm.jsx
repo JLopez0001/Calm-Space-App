@@ -14,7 +14,7 @@ const PatientForm = ({firstName, setFirstName, lastName, setLastName,
             <h1 className='form-title'>Create Patient</h1>
             <Form noValidate validated={validated} onSubmit={onSubmit}>
                 <Row className='create-patient-row d-flex justify-content-center'>
-                    <Form.Group as={Col} md="5" controlId='formGroupFirstName'>
+                    <Form.Group as={Col} sm={8} md={5} controlId='formGroupFirstName'>
                         <Form.Label>First Name</Form.Label>
                             <InputGroup hasValidation>
                                 <Form.Control
@@ -31,7 +31,7 @@ const PatientForm = ({firstName, setFirstName, lastName, setLastName,
                             </InputGroup>
                     </Form.Group>
 
-                    <Form.Group as={Col} md="5" controlId="formGroupLastName">
+                    <Form.Group as={Col} sm={8} md={5} controlId="formGroupLastName">
                         <Form.Label>Last Name</Form.Label>
                             <InputGroup  hasValidation>
                                 <Form.Control
@@ -50,7 +50,7 @@ const PatientForm = ({firstName, setFirstName, lastName, setLastName,
                 </Row>
 
                 <Row className='create-patient-row  d-flex justify-content-center'>
-                    <Form.Group as={Col} md="5" controlId="formGroupPhoneNumber">
+                    <Form.Group as={Col} sm={8} md={5} controlId="formGroupPhoneNumber">
                         <Form.Label>Phone Number</Form.Label>
                             <InputGroup hasValidation>
                                 <Form.Control
@@ -67,7 +67,7 @@ const PatientForm = ({firstName, setFirstName, lastName, setLastName,
                             </InputGroup>
                     </Form.Group>
 
-                    <Form.Group as={Col} md="5" controlId="formGroupAddress">
+                    <Form.Group as={Col} sm={8} md={5} controlId="formGroupAddress">
                         <Form.Label>Address</Form.Label>
                             <InputGroup hasValidation>
                                 <Form.Control
@@ -86,7 +86,7 @@ const PatientForm = ({firstName, setFirstName, lastName, setLastName,
                 </Row>
 
                 <Row className='create-patient-row d-flex justify-content-center'>
-                    <Form.Group as={Col} md="5" controlId="formGroupProviderCode">
+                    <Form.Group as={Col} sm={8} md={5} controlId="formGroupProviderCode">
                         <Form.Label>Provider Code</Form.Label>
                             <InputGroup hasValidation>
                                 <Form.Control

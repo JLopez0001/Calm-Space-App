@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback} from 'react';
 import {BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavFeature from './components/navbar';
 import TherapistHomePage from './pages/homePages/therapistHome';
@@ -13,7 +13,7 @@ import CreateNotePage from './pages/notePages/createNote';
 import NoteDetailsPage from './pages/notePages/note';
 import EditNotePage from './pages/notePages/editNote';
 import Footer from './components/footer';
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 
 
 function App() {
@@ -42,7 +42,16 @@ function App() {
     <div className="App">
         <Router>
           <NavFeature userRole={window.localStorage.getItem("userRole")} loggedIn={loggedIn} handleLogout={handleLogout} />
-            <Toaster position='top-right' toastOptions={{duration:4000}} />
+            <Toaster 
+              position='top-center' 
+              toastOptions={{
+                duration:4000,
+                style: {
+                  height: "70px",
+                },
+              }} 
+
+            />
             <main>
               <Routes>
                 <Route path='/' element={<TherapistHomePage/>} />
@@ -52,7 +61,7 @@ function App() {
                 <Route path='/create-patient' element={<CreatePatientPage/>} />
                 <Route path='/patient/:patientID' element={<PatientPage />} />
                 <Route path='/search-patient' element={<SearchPage/>} />
-                <Route path='/create-note' element={<CreateNotePage />} />
+                <Route path='/patient/:patientID/create-note' element={<CreateNotePage />} />
                 <Route path='/note/:noteID' element={<NoteDetailsPage userRole={userRole} />} />
                 <Route path='/edit-note/:noteID' element={<EditNotePage />} />
               </Routes>

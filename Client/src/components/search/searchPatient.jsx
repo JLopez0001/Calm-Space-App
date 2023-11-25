@@ -62,7 +62,7 @@ const SearchPatient = () => {
                     <Row className="justify-content-md-center">
                         {searchOption === 'fullName' && (
                             <>
-                                <Col md={4}>
+                                <Col xs={4} sm={5} md={4}>
                                     <Form.Group controlId="formGroupFirstName">
                                         <InputGroup hasValidation>
                                             <Form.Control
@@ -80,7 +80,7 @@ const SearchPatient = () => {
                                     </Form.Group>
                                 </Col>
 
-                                <Col md={4}>
+                                <Col xs={4} sm={5} md={4}>
                                     <Form.Group controlId="formGroupLastName">
                                         <InputGroup hasValidation>
                                             <Form.Control
@@ -100,7 +100,7 @@ const SearchPatient = () => {
                             </>
                         )}
                         {searchOption === 'patientID' && (
-                            <Col md={5}>
+                            <Col xs={6} sm={6} md={6}>
                                 <Form.Group controlId="formGroupPatientID">
                                     <InputGroup hasValidation>
                                         <Form.Control
@@ -118,7 +118,7 @@ const SearchPatient = () => {
                                 </Form.Group>
                             </Col>
                         )}
-                        <Col md={3} className="d-flex align-items-center pl-0">
+                        <Col xs={5} md={3} className="d-flex align-items-center pl-0 ">
                             <Button className='buttons search-button' onClick={handleSearch}>Search</Button>
                         </Col>
                     </Row>

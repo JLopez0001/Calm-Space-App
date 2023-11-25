@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
+import { useCookies } from "react-cookie";
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import { toast } from "react-hot-toast";
@@ -10,6 +11,7 @@ import Button from 'react-bootstrap/Button';
 
 const NoteDetailsPage = ({ userRole }) => {
 
+    const [cookies, _] = useCookies(["access_token"])
     const { noteID } = useParams(); 
     const [note, setNote] = useState(null);
 
@@ -22,12 +24,12 @@ const NoteDetailsPage = ({ userRole }) => {
     useEffect(() => {
         const fetchNoteDetails = async () => {
             try {
-                const response = await axios.get(`http://localhost:3001/qa/note/${noteID}`);
+                const response = await axios.get(`http://localhost:3001/qa/note/${noteID}`,);
                 console.log(response.data);
                 setNote(response.data);
 
-                // If the note status is 'rejected' and the user is a therapist, show the rejection message modal
-                if (response.data.status === 'rejected' && userRole === "therapist") {
+                // Show the rejection message modal if the note status is 'rejected'
+                if (response.data.status === 'rejected') {
                     setShowRejectionMessageModal(true);
                 }
 
@@ -37,11 +39,12 @@ const NoteDetailsPage = ({ userRole }) => {
         };
 
         fetchNoteDetails();
-    }, [noteID, userRole]);
+    }, [noteID]);
 
     const handleApprove = async () => {
         try {
-            const response = await axios.post(`http://localhost:3001/qa/note/${note._id}/approve`);
+            const response = await axios.post(`http://localhost:3001/qa/note/${note._id}/approve`,{},
+            { headers: { access_token: cookies.access_token }});
             toast.success(response.data.message);
             console.log(response.data.message);
             navigate('/qa');
@@ -53,7 +56,8 @@ const NoteDetailsPage = ({ userRole }) => {
 
     const handleReject = async () => {
         try {
-            const response = await axios.post(`http://localhost:3001/qa/note/${note._id}/reject`, { reason: rejectionReason });
+            const response = await axios.post(`http://localhost:3001/qa/note/${note._id}/reject`, { reason: rejectionReason },
+            { headers: { access_token: cookies.access_token }});
             console.log(response.data.message);
 
             setShowRejectModal(false);
@@ -65,25 +69,27 @@ const NoteDetailsPage = ({ userRole }) => {
             console.error("Error rejecting the note:", error);
         }
     };
+
     return (
         <>
             <div className="note-form-container">
-                <NoteDetails 
+                <NoteDetails
                     note={note} 
                     userRole={userRole}
                     toggleRejectionMessageModal={() => setShowRejectionMessageModal(true)}
-                />
-                {userRole === "therapist" && note?.status === 'rejected' && (
-                    <Button className="buttons" onClick={() => navigate(`/edit-note/${note._id}`)}>
-                        Edit Note
-                    </Button>
-                )}
-                {userRole === "qa" && (
-                    <div style={{width : "15%"}} className="d-flex justify-content-around">
-                        <Button  variant="success" onClick={handleApprove}>Approve</Button>
-                        <Button variant="danger" onClick={() => setShowRejectModal(true)}>Reject</Button>
-                    </div>
-                )}
+                >
+                    {userRole === "therapist" && note?.status === 'rejected' && (
+                        <Button className="buttons" onClick={() => navigate(`/edit-note/${note._id}`)}>
+                            Edit Note
+                        </Button>
+                    )}
+                    {userRole === "qa" && (
+                        <div className="note-action-buttons-container">
+                            <Button className="note-action-buttons" variant="success" onClick={handleApprove}>Approve</Button>
+                            <Button className="note-action-buttons" variant="danger" onClick={() => setShowRejectModal(true)}>Reject</Button>
+                        </div>
+                    )}
+                </NoteDetails>
             </div>
             <div>
                 <RejectionModal 

@@ -65,7 +65,14 @@ const PatientChart = ({ firstName, lastName, patientID, diagnoses, onAddDiagnosi
                             <div className='patient-chart'>
                                 <Row>
                                     <Col className='patient-notes d-flex justify-content-center' sm={9}> <h4>Patients Notes</h4> </Col>
-                                    <Col sm={3}> <Button  className='buttons' href='/create-note'>Add Note</Button> </Col>
+                                    <Col sm={3}> 
+                                        <Button  
+                                            className='buttons' 
+                                            href={`/patient/${patientID}/create-note`}
+                                        >
+                                         Add Note
+                                        </Button> 
+                                    </Col>
                                 </Row>
                             </div>
                             <Table className='patient-note-table' striped bordered hover>

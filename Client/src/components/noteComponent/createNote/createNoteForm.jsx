@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useCookies } from "react-cookie"
 import { toast } from 'react-hot-toast';
 import Form from 'react-bootstrap/Form';
 import HeaderSection from './serviceAndAppointmentSection';
@@ -12,12 +13,10 @@ import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-// TODO: Have function to handle if you want to press the enter key to submit the form
-//TODO: If the therapist is editing the note they have to have the correct provider ID
-
 const NoteForm = ({ note = {}, isEditMode = false }) => {
     
     const navigate = useNavigate();
+    const [cookies, _] = useCookies(["access_token"])
 
     const [riskAssessment, setRiskAssessment] = useState(isEditMode ? note.riskAssessmentChecked.checked : false);
     const [content, setContent] = useState(isEditMode ? note.content : '');
@@ -68,8 +67,6 @@ const NoteForm = ({ note = {}, isEditMode = false }) => {
         status: status,
     };
 
-    // console.log(noteData);
-
     const onSubmit = async (e) => {
         e.preventDefault();
         const form = e.currentTarget;
@@ -91,13 +88,13 @@ const NoteForm = ({ note = {}, isEditMode = false }) => {
     
         try {
             if (isEditMode) {
-                console.log('PUT endpoint:', `/qa/note/${note._id}/edit`);
-                console.log('Data being sent:', updatedNoteData);
-                await axios.put(`http://localhost:3001/qa/note/${note._id}/edit`, updatedNoteData);
-                toast.success('Note Resubmited Successfully!');
+                await axios.put(`http://localhost:3001/qa/note/${note._id}/edit`, updatedNoteData,
+                { headers: { access_token: cookies.access_token }});
+                toast.success('Note Resubmitted Successfully!');
                 navigate(`/patient/${patientID}`);
             } else {
-                const response = await axios.post('http://localhost:3001/patients/create-note', updatedNoteData);
+                const response = await axios.post(`http://localhost:3001/patients/patient/${patientID}/create-note`, updatedNoteData,
+                { headers: { access_token: cookies.access_token }});
                 if (response.status === 200) {
                     toast.success('Note Created Successfully!');
                     navigate(`/patient/${patientID}`);
@@ -115,6 +112,13 @@ const NoteForm = ({ note = {}, isEditMode = false }) => {
             }
     };
     
+    const handleKeyDown = async (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            await handleModalSubmit(); 
+        }
+    };
+
 
     return (
         <>
@@ -174,6 +178,7 @@ const NoteForm = ({ note = {}, isEditMode = false }) => {
                             type="text"
                             value={modalProviderCode}
                             onChange={(e) => setModalProviderCode(e.target.value)}
+                            onKeyDown={handleKeyDown}
                         />
                         </Col>
                     </Form.Group>
